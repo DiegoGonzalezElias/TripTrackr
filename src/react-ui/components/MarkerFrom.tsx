@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
+import { Button } from './button';
 
 interface MarkerFormProps {
     newMarkerText: string;
@@ -9,6 +11,8 @@ interface MarkerFormProps {
 
 function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: MarkerFormProps) {
     const formRef = useRef<HTMLDivElement>(null);
+    const [buttonText, setButtonText] = useState('Añadir marcador');
+    const [category, setCategory] = useState('Restaurante');
 
     // Hook para manejar el clic fuera del formulario y cerrarlo
     useEffect(() => {
@@ -26,30 +30,67 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
         };
     }, [closeForm]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 600) {
+                setButtonText('Añadir');  // Cambia el texto si la pantalla es menor a 600px
+            } else {
+                setButtonText('Añadir marcador');  // Texto normal para pantallas más grandes
+            }
+        };
+
+        handleResize();  // Llamada inicial para establecer el texto correcto
+        window.addEventListener('resize', handleResize);  // Escucha los cambios de tamaño
+
+        return () => {
+            window.removeEventListener('resize', handleResize);  // Limpia el listener
+        };
+    }, []);
+
     return (
         <div ref={formRef} className="relative">
-            {/* Botón de cerrar (X) */}
-            <button
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 font-bold"
-                onClick={closeForm}
-            >
-                X
-            </button>
+            <Card className="w-full max-w-[320px]">
+                <CardHeader>
+                    <CardTitle>Marker menu</CardTitle>
+                    <CardDescription>Añade tu marcador</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form>
+                        <div className="grid w-full items-center gap-4">
+                            <div className="flex flex-col space-y-1.5">
+                                <label className="font-bold">Añadir nuevo marcador</label>
+                                <input
+                                    type="text"
+                                    value={newMarkerText}
+                                    onChange={(e) => setNewMarkerText(e.target.value)}
+                                    placeholder="Texto del marcador"
+                                    className="border border-gray-300 p-2 w-full"
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </CardContent>
 
-            <h3 className="font-bold mb-2">Añadir nuevo marcador</h3>
-            <input
-                type="text"
-                value={newMarkerText}
-                onChange={(e) => setNewMarkerText(e.target.value)}
-                placeholder="Texto del marcador"
-                className="border border-gray-300 p-2 w-full mb-2"
-            />
-            <button
-                onClick={addMarker}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-                Añadir marcador
-            </button>
+                {/* Categoría del marcador */}
+                <div className="mb-4 p-6 pt-0">
+                    <label className="font-bold mb-2">Categoría</label>
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="border border-gray-300 p-2 w-full mt-2"
+                    >
+                        <option>Restaurante</option>
+                        <option>Alojamiento</option>
+                        <option>Atracción</option>
+                        <option>Compras</option>
+                        <option>Transporte</option>
+                    </select>
+                </div>
+                <CardFooter className="flex justify-between">
+                    <Button variant="outline" onClick={closeForm}>Cancel</Button>
+                    <Button onClick={addMarker}>{buttonText}</Button>
+                </CardFooter>
+            </Card>
         </div>
     );
 }
