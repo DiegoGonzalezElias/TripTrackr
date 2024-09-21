@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 import { Button } from './button';
+import { useTranslation } from "react-i18next";
 
 interface MarkerFormProps {
     newMarkerText: string;
@@ -11,6 +12,7 @@ interface MarkerFormProps {
 
 function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: MarkerFormProps) {
     const formRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
     const [buttonText, setButtonText] = useState('Añadir marcador');
     const [category, setCategory] = useState('Restaurante');
 
@@ -33,9 +35,9 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 600) {
-                setButtonText('Añadir');  // Cambia el texto si la pantalla es menor a 600px
+                setButtonText(t('BUTTONS.ADD'));  // Cambia el texto si la pantalla es menor a 600px
             } else {
-                setButtonText('Añadir marcador');  // Texto normal para pantallas más grandes
+                setButtonText(t('BUTTONS.ADD_MARKER'));  // Texto normal para pantallas más grandes
             }
         };
 
@@ -51,19 +53,19 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
         <div ref={formRef} className="relative">
             <Card className="w-full max-w-[320px]">
                 <CardHeader>
-                    <CardTitle>Marker menu</CardTitle>
-                    <CardDescription>Añade tu marcador</CardDescription>
+                    <CardTitle>{t('CARD_TITLE.MARKER_MENU')}</CardTitle>
+                    <CardDescription>{t('CARD_DESCRIPTION.ADD_YOUR_MARKER')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form>
                         <div className="grid w-full items-center gap-4">
                             <div className="flex flex-col space-y-1.5">
-                                <label className="font-bold">Añadir nuevo marcador</label>
+                                <label className="font-bold">{t('LABELS.ADD_NEW_MARKER')}</label>
                                 <input
                                     type="text"
                                     value={newMarkerText}
                                     onChange={(e) => setNewMarkerText(e.target.value)}
-                                    placeholder="Texto del marcador"
+                                    placeholder={t('PLACEHOLDERS.MARKER_TEXT')}
                                     className="border border-gray-300 p-2 w-full"
                                 />
                             </div>
@@ -73,21 +75,22 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
 
                 {/* Categoría del marcador */}
                 <div className="mb-4 p-6 pt-0">
-                    <label className="font-bold mb-2">Categoría</label>
+                    <label className="font-bold mb-2">{t('LABELS.CATEGORY')}</label>
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         className="border border-gray-300 p-2 w-full mt-2"
                     >
-                        <option>Restaurante</option>
-                        <option>Alojamiento</option>
-                        <option>Atracción</option>
-                        <option>Compras</option>
-                        <option>Transporte</option>
+                        <option>{t('SELECT_OPTIONS.RESTAURANT')}</option>
+                        <option>{t('SELECT_OPTIONS.HOSTING')}</option>
+                        <option>{t('SELECT_OPTIONS.ATTRACTION')}</option>
+                        <option>{t('SELECT_OPTIONS.SHOPPING')}</option>
+                        <option>{t('SELECT_OPTIONS.TRANSPORT')}</option>
+                        <option>{t('SELECT_OPTIONS.OTHER')}</option>
                     </select>
                 </div>
                 <CardFooter className="flex justify-between">
-                    <Button variant="outline" onClick={closeForm}>Cancel</Button>
+                    <Button variant="outline" onClick={closeForm}>{t("BUTTONS.CANCEL")}</Button>
                     <Button onClick={addMarker}>{buttonText}</Button>
                 </CardFooter>
             </Card>
