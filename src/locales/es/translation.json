@@ -1,0 +1,33 @@
+{
+    "BUTTONS": {
+        "LOGIN": "Entrar",
+        "REGISTER": "Registrar",
+        "LOGOUT": "Desconectar",
+        "YES": "Sí",
+        "NO": "No",
+        "ADD_MARKER": "Añadir marcador",
+        "ADD": "Añadir",
+        "CANCEL": "Cancelar"
+    },
+    "SELECT_OPTIONS": {
+        "RESTAURANT": "Restaurante",
+        "HOSTING": "Alojamiento",
+        "ATTRACTION": "Atracción",
+        "SHOPPING": "Compras",
+        "TRANSPORT": "Transporte",
+        "OTHER": "Otros"
+    },
+    "LABELS": {
+        "CATEGORY": "Categoría",
+        "ADD_NEW_MARKER": "Añadir nuevo marcador"
+    },
+    "PLACEHOLDERS": {
+        "MARKER_TEXT": "Texto del marcador"
+    },
+    "CARD_TITLE": {
+        "MARKER_MENU": "Menu de marcador"
+    },
+    "CARD_DESCRIPTION": {
+        "ADD_YOUR_MARKER": "Añade tu marcador"
+    }
+}
