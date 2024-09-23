@@ -62,7 +62,7 @@ const Map: React.FC = () => {
     <div className='relative'>
       {/* Formulario flotante para crear un nuevo marcador */}
       {newMarkerPosition && (
-        <div className="absolute top-40 mx-3 z-50 p-4 rounded w-full">
+        <div className="absolute top-40 z-50 p-4 rounded w-full max-w-[350px]">
           <MarkerFrom closeForm={closeForm} addMarker={addMarker} newMarkerText={newMarkerText} setNewMarkerText={setNewMarkerText} />
         </div>
       )}
