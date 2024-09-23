@@ -19,7 +19,8 @@
     },
     "LABELS": {
         "CATEGORY": "Categoría",
-        "ADD_NEW_MARKER": "Añadir nuevo marcador"
+        "TITLE": "Título",
+        "DATE": "Fecha"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador"
