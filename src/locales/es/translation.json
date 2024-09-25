@@ -20,15 +20,27 @@
     "LABELS": {
         "CATEGORY": "Categoría",
         "TITLE": "Título",
-        "DATE": "Fecha"
+        "DATE": "Fecha",
+        "USERNAME": "Usuario",
+        "PASSWORD": "Contraseña",
+        "REPIT_PASSWORD": "Repetir contraseña"
     },
     "PLACEHOLDERS": {
-        "MARKER_TEXT": "Texto del marcador"
+        "MARKER_TEXT": "Texto del marcador",
+        "ADD_EMAIL": "Cuenta de email",
+        "ADD_PASSWORD": "Añade tú contraseña",
+        "REPIT_PASSWORD": "Repite la contraseña"
     },
     "CARD_TITLE": {
-        "MARKER_MENU": "Menu de marcador"
+        "MARKER_MENU": "Menu de marcador",
+        "LOGIN": "LOGIN",
+        "REGISTER": "REGISTRAR"
     },
     "CARD_DESCRIPTION": {
-        "ADD_YOUR_MARKER": "Añade tu marcador"
-    }
+        "ADD_YOUR_MARKER": "Añade tu marcador",
+        "LOGIN": "Accede con tu cuenta",
+        "REGISTER": "Crea tu cuenta"
+    },
+    "ARE_YOU_NOT_REGISTERED": "No estás registrado?",
+    "ARE_YOU_REGISTERED": "Ya tienes una cuenta?"
 }
