@@ -7,7 +7,8 @@
         "NO": "No",
         "ADD_MARKER": "Añadir marcador",
         "ADD": "Añadir",
-        "CANCEL": "Cancelar"
+        "CANCEL": "Cancelar",
+        "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",
@@ -21,26 +22,28 @@
         "CATEGORY": "Categoría",
         "TITLE": "Título",
         "DATE": "Fecha",
-        "USERNAME": "Usuario",
+        "EMAIL": "Email",
         "PASSWORD": "Contraseña",
         "REPIT_PASSWORD": "Repetir contraseña"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",
-        "ADD_EMAIL": "Cuenta de email",
-        "ADD_PASSWORD": "Añade tú contraseña",
+        "ADD_EMAIL": "Example@email.com",
+        "ADD_PASSWORD": "Como mínimo 8 caracteres",
         "REPIT_PASSWORD": "Repite la contraseña"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",
         "LOGIN": "LOGIN",
-        "REGISTER": "REGISTRAR"
+        "REGISTER": "REGISTRAR",
+        "WELCOME_BUDDY": "Welcome Buddy 👋",
+        "WELCOME_BACK": "Welcome Back 👋"
     },
     "CARD_DESCRIPTION": {
         "ADD_YOUR_MARKER": "Añade tu marcador",
         "LOGIN": "Accede con tu cuenta",
         "REGISTER": "Crea tu cuenta"
     },
-    "ARE_YOU_NOT_REGISTERED": "No estás registrado?",
-    "ARE_YOU_REGISTERED": "Ya tienes una cuenta?"
+    "ARE_YOU_NOT_REGISTERED": "¿No estás registrado?",
+    "ARE_YOU_REGISTERED": "¿Ya tienes una cuenta?"
 }
