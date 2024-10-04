@@ -4,7 +4,7 @@ import AccessView from '../views/Access/index.tsx';
 import MapView from '../views/Map/index.tsx';
 
 const RouterComponent = () => {
-    const userIsLogged = false;
+    const userIsLogged = true;
 
     return (
         <Router basename={import.meta.env.VITE_APP_BASE_URL as string}>

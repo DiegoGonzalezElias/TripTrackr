@@ -30,7 +30,8 @@
         "MARKER_TEXT": "Texto del marcador",
         "ADD_EMAIL": "Example@email.com",
         "ADD_PASSWORD": "Como mínimo 8 caracteres",
-        "REPIT_PASSWORD": "Repite la contraseña"
+        "REPIT_PASSWORD": "Repite la contraseña",
+        "SELECT_DATE": "Elige una fecha"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",
