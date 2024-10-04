@@ -15,7 +15,6 @@ function Hamburger() {
                 </Button>
             </Popover.Trigger>
 
-            {/* Contenido del menú que aparecerá al hacer click */}
             <Popover.Content
                 align="end"
                 sideOffset={10}
