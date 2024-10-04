@@ -32,43 +32,47 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
     return (
         <div ref={formRef} className="relative">
             <Card className="w-full max-w-[320px]">
-                <CardHeader>
-                    <CardTitle>{t('CARD_TITLE.MARKER_MENU')}</CardTitle>
-                    <CardDescription>{t('CARD_DESCRIPTION.ADD_YOUR_MARKER')}</CardDescription>
+                <CardHeader className='flex flex-row justify-between text-start'>
+                    <div>
+                        <CardTitle className=' text-lg'>{t('CARD_TITLE.MARKER_MENU')}</CardTitle>
+                        <CardDescription>{t('CARD_DESCRIPTION.ADD_YOUR_MARKER')}</CardDescription>
+                    </div>
+                    
+                    <Button size={'icon'}  variant="outline" onClick={closeForm}>{'X'}</Button>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form className='text-start'>
                         <div className="grid w-full items-center gap-4 mb-4">
                             <div className="flex flex-col space-y-1.5">
-                                <label className="font-bold">{t('LABELS.TITLE')}</label>
+                                <label className=" text-gray-600 text-sm">{t('LABELS.TITLE')}</label>
                                 <input
                                     type="text"
                                     value={newMarkerText}
                                     onChange={(e) => setNewMarkerText(e.target.value)}
                                     placeholder={t('PLACEHOLDERS.MARKER_TEXT')}
-                                    className="border border-gray-300 p-2 w-full mt-2"
+                                    className="border border-gray-300 rounded-md p-2 w-full mt-2"
                                 />
                             </div>
                         </div>
 
                         {/* Descripción */}
                         <div className="mb-4">
-                            <label className="font-bold mb-2">Descripción</label>
+                            <label className=" text-gray-600 text-sm">Descripción</label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Añadir descripción"
-                                className="border border-gray-300 p-2 w-full mt-2"
+                                className="border border-gray-300 rounded-md p-2 w-full mt-[6px]"
                             />
                         </div>
 
                         {/* Categoría del marcador */}
                         <div className="mb-4">
-                            <label className="font-bold mb-2">{t('LABELS.CATEGORY')}</label>
+                            <label className="text-gray-600 text-sm">{t('LABELS.CATEGORY')}</label>
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="border border-gray-300 p-2 w-full mt-2"
+                                className="border border-gray-300 rounded-md p-2 w-full mt-[6px]"
                             >
                                 <option>{t('SELECT_OPTIONS.RESTAURANT')}</option>
                                 <option>{t('SELECT_OPTIONS.HOSTING')}</option>
@@ -80,8 +84,8 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
                         </div>
                         {/* Fecha */}
                         <div className='mb-4'>
-                            <label className="font-bold mb-2">{t('LABELS.DATE')}</label>
-                            <div className='mt-2'>
+                            <label className="text-gray-600 text-sm">{t('LABELS.DATE')}</label>
+                            <div className='mt-[6px]'>
                                 <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
@@ -92,7 +96,7 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
                                             )}
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                            {date ? format(date, "PPP") : <span>{t('PLACEHOLDERS.SELECT_DATE')}</span>}
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0">
@@ -109,9 +113,8 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
                         </div>
 
 
-                        <CardFooter className="flex justify-between p-0 mt-10">
-                            <Button variant="outline" onClick={closeForm}>{t("BUTTONS.CANCEL")}</Button>
-                            <Button onClick={addMarker}>{buttonText}</Button>
+                        <CardFooter className="flex p-0 mt-10 py-4">
+                            <Button size={'lg'} className='w-full bg-chart-2'  onClick={addMarker}>{buttonText}</Button>
                         </CardFooter>
                     </form>
                 </CardContent>
