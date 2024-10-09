@@ -5,8 +5,10 @@ import { MapIcon } from "@/react-ui/icons/MapIcon";
 import { UserIcon } from "@/react-ui/icons/UserIcon";
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import * as Popover from '@radix-ui/react-popover';
+import { useTranslation } from "react-i18next";
 
 function Hamburger() {
+    const { t } = useTranslation();
     return (
         <Popover.Root>
             <Popover.Trigger asChild>
@@ -26,30 +28,30 @@ function Hamburger() {
                         <span className="icon">
                             <EditIcon width={32} height={32} />
                         </span>
-                        <span className="text-[14px] text-gray-600">Add Editor</span>
+                        <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.EDITORS')}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <LogoutIcon width={32} height={32} />
                         </span>
-                        <span className="text-[14px] text-gray-600">Logout</span>
+                        <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.LOGOUT')}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <UserIcon height={32} width={32} />
                         </span>
-                        <span className="text-[14px] text-gray-600">Account</span>
+                        <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.ACCOUNT')}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <MapIcon height={32} width={32} />
                         </span>
-                        <span className="text-[14px] text-gray-600">Maps</span>
+                        <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.MAPS')}</span>
                     </div>
                 </div>
 
                 <div className="text-red-500 text-center text-sm cursor-pointer opacity-70 hover:opacity-100">
-                    Delete account
+                    {t('HAMBURGER_MENU.DELETE_ACCOUNT')}
                 </div>
             </Popover.Content>
         </Popover.Root>

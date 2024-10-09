@@ -46,5 +46,12 @@
         "REGISTER": "Crea tu cuenta"
     },
     "ARE_YOU_NOT_REGISTERED": "¿No estás registrado?",
-    "ARE_YOU_REGISTERED": "¿Ya tienes una cuenta?"
+    "ARE_YOU_REGISTERED": "¿Ya tienes una cuenta?",
+    "HAMBURGER_MENU": {
+        "EDITORS": "Editores",
+        "LOGOUT": "Desconectar",
+        "ACCOUNT": "Cuenta",
+        "MAPS": "Mapas",
+        "DELETE_ACCOUNT": "Eliminar cuenta"
+    }
 }
