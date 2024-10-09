@@ -1,13 +1,14 @@
 import React, { useRef } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
-import { Button } from './button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/react-ui/components/card';
+
 import { useTranslation } from "react-i18next";
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/react-ui/components/popover';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
-import { Calendar } from './calendar';
-import { useMarkerForm } from '../hooks/useMarkerForm';
+import { Calendar } from '@/react-ui/components/calendar';
+import { useMarkerForm } from '@/react-ui/hooks/useMarkerForm';
+import { Button } from '@/react-ui/components/button';
 
 interface MarkerFormProps {
     newMarkerText: string;
@@ -37,8 +38,8 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
                         <CardTitle className=' text-lg'>{t('CARD_TITLE.MARKER_MENU')}</CardTitle>
                         <CardDescription>{t('CARD_DESCRIPTION.ADD_YOUR_MARKER')}</CardDescription>
                     </div>
-                    
-                    <Button size={'icon'}  variant="outline" onClick={closeForm}>{'X'}</Button>
+
+                    <Button size={'icon'} variant="outline" onClick={closeForm}>{'X'}</Button>
                 </CardHeader>
                 <CardContent>
                     <form className='text-start'>
@@ -114,7 +115,7 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
 
 
                         <CardFooter className="flex p-0 mt-10 py-4">
-                            <Button size={'lg'} className='w-full bg-chart-2'  onClick={addMarker}>{buttonText}</Button>
+                            <Button size={'lg'} className='w-full bg-chart-2' onClick={addMarker}>{buttonText}</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

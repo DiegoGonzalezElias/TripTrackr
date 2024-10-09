@@ -1,4 +1,4 @@
-import Map from "@/react-ui/components/Map"
+import Map from "@/react-ui/views/Map/components/Map"
 import Hamburger from "./components/Hamburger"
 
 function MapView() {
