@@ -14,7 +14,7 @@ interface MarkerFormProps {
     newMarkerText: string;
     setNewMarkerText: (value: React.SetStateAction<string>) => void;
     addMarker: () => void;
-    closeForm: () => void;  // Nueva función para cerrar el formulario
+    closeForm: () => void;
 }
 
 function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: MarkerFormProps) {
@@ -115,7 +115,7 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
 
 
                         <CardFooter className="flex p-0 mt-10 py-4">
-                            <Button size={'lg'} className='w-full bg-chart-2' onClick={addMarker}>{buttonText}</Button>
+                            <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={addMarker}>{buttonText}</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

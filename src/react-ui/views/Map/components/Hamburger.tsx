@@ -23,7 +23,6 @@ function Hamburger() {
                 className="bg-white shadow-lg p-6 rounded-md flex flex-col space-y-4"
             >
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Elementos del menú */}
                     <div className=" border flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <EditIcon width={32} height={32} />
