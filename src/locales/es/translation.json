@@ -8,7 +8,12 @@
         "ADD_MARKER": "Añadir marcador",
         "ADD": "Añadir",
         "CANCEL": "Cancelar",
-        "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?"
+        "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+        "CLOSE": "Cerrar",
+        "APPLY": "Aplicar",
+        "SELECT": "Seleccionar",
+        "CHANGE_PASSWORD": "Cambiar contraseña",
+        "DELETE": "Eliminar"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",
@@ -24,14 +29,21 @@
         "DATE": "Fecha",
         "EMAIL": "Email",
         "PASSWORD": "Contraseña",
-        "REPIT_PASSWORD": "Repetir contraseña"
+        "REPIT_PASSWORD": "Repetir contraseña",
+        "ADD_EDITOR": "Añadir editor",
+        "OLD_PASS": "Contraseña antigua",
+        "NEW_PASS": "Contraseña nueva",
+        "DELETE_ACC": "Ecribe 'Delete' para eliminar tu cuenta"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",
         "ADD_EMAIL": "Example@email.com",
         "ADD_PASSWORD": "Como mínimo 8 caracteres",
         "REPIT_PASSWORD": "Repite la contraseña",
-        "SELECT_DATE": "Elige una fecha"
+        "SELECT_DATE": "Elige una fecha",
+        "OLD_PASS": "Añade tu contraseña actual",
+        "NEW_PASS": "Escribe la nueva contraseña",
+        "DELETE_ACC": "Delete"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",
@@ -47,6 +59,7 @@
     },
     "ARE_YOU_NOT_REGISTERED": "¿No estás registrado?",
     "ARE_YOU_REGISTERED": "¿Ya tienes una cuenta?",
+    "DO_YOU_WANT_TO_LOGOUT": "¿Seguro que quieres desloguearte?",
     "HAMBURGER_MENU": {
         "EDITORS": "Editores",
         "LOGOUT": "Desconectar",
