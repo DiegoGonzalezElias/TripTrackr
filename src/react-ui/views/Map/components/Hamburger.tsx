@@ -24,25 +24,25 @@ function Hamburger() {
             >
                 <div className="grid grid-cols-2 gap-4">
                     {/* Elementos del menú */}
-                    <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                    <div className=" border flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <EditIcon width={32} height={32} />
                         </span>
                         <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.EDITORS')}</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                    <div className=" border flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <LogoutIcon width={32} height={32} />
                         </span>
                         <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.LOGOUT')}</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                    <div className="border flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <UserIcon height={32} width={32} />
                         </span>
                         <span className="text-gray-600 text-sm">{t('HAMBURGER_MENU.ACCOUNT')}</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                    <div className=" border flex flex-col items-center justify-center space-x-2 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
                         <span className="icon">
                             <MapIcon height={32} width={32} />
                         </span>
