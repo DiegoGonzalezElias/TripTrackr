@@ -13,7 +13,8 @@
         "APPLY": "Aplicar",
         "SELECT": "Seleccionar",
         "CHANGE_PASSWORD": "Cambiar contraseña",
-        "DELETE": "Eliminar"
+        "DELETE": "Eliminar",
+        "LOADING": "Cargando"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",
