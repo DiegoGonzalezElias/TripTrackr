@@ -1,4 +1,4 @@
-import { AccessToken, AuthRepository, Login, Register } from '../domain/auth.model.ts';
+import { AccessToken, Auth, AuthRepository, Login, Register } from '../domain/auth.model.ts';
 
 export function createAuthRepository(): AuthRepository {
     return {
@@ -22,7 +22,7 @@ async function getToken(): Promise<AccessToken> {
 
 }
 
-async function loginUser(data: Login): Promise<AccessToken> {
+async function loginUser(data: Login): Promise<Auth> {
     const { email, password } = data
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/login`, {
         method: 'POST',
@@ -37,12 +37,12 @@ async function loginUser(data: Login): Promise<AccessToken> {
         throw new Error('Login failed');
     }
 
-    const JSONdata = await response.json() as AccessToken;
+    const JSONdata = await response.json() as Auth;
 
     return JSONdata;
 }
 
-async function registerUser(data: Register): Promise<AccessToken> {
+async function registerUser(data: Register): Promise<Auth> {
     const { email, password, confirmPassword } = data
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/register`, {
         method: 'POST',
@@ -57,7 +57,7 @@ async function registerUser(data: Register): Promise<AccessToken> {
         throw new Error('Registration failed');
     }
 
-    const JSONdata = await response.json() as AccessToken;
+    const JSONdata = await response.json() as Auth;
 
     return JSONdata;
 }

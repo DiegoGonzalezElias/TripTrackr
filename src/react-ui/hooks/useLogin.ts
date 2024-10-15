@@ -5,7 +5,7 @@ import { useState } from 'react';
 import validator from 'validator';
 
 export const useLogin = () => {
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, setUser } = useAuth();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -17,6 +17,7 @@ export const useLogin = () => {
             const authServiceImpl = authService(createAuthRepository())
             const data = await authServiceImpl.loginUser({ email, password });
             setAccessToken(data.accessToken);
+            setUser(data.user);
 
             return data;
         } catch (error) {
