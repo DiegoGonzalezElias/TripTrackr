@@ -5,6 +5,7 @@ export function createAuthRepository(): AuthRepository {
         getToken,
         loginUser,
         registerUser,
+        logout,
         //refreshTokens,
     };
 }
@@ -60,6 +61,14 @@ async function registerUser(data: Register): Promise<AccessToken> {
 
     return JSONdata;
 }
+
+async function logout(): Promise<void> {
+    await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+    });
+}
+
 /* 
 function refreshTokens(newRefreshToken: string): Promise<Request> {
     //TODO: change this fake implementation
