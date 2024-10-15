@@ -1,7 +1,6 @@
 import { Button } from "@/react-ui/components/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/react-ui/components/card";
 import { useLogin } from "@/react-ui/hooks/useLogin";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface LoginFormProps {
@@ -9,34 +8,9 @@ interface LoginFormProps {
 }
 
 function LoginForm({ switchForm }: LoginFormProps) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);  // Estado para el botón de carga
-    const [error, setError] = useState<string | null>(null);  // Estado para los errores
 
     const { t } = useTranslation();
-    const { login } = useLogin(); // Usa el hook de login
-
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true); // Activa el estado de carga
-        setError(null);   // Resetea el estado de error
-
-        try {
-            // Llama al login con los datos del formulario
-            await login(username, password);
-
-            // Redirige a la vista de MapView o realiza la acción necesaria
-            // window.location.href = '/map-view';
-
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-            // Si hay error, lo estableces en el estado
-            setError('Invalid email or password');
-        } finally {
-            setLoading(false); // Finaliza la carga
-        }
-    };
+    const { handleLogin, username, setUsername, password, setPassword, loading, error } = useLogin();
 
     return (
         <div className="w-full mx-4 flex justify-center items-center max-w-[450px]">
@@ -48,7 +22,7 @@ function LoginForm({ switchForm }: LoginFormProps) {
                     </p>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleLogin}> {/* Cambia el botón para manejar el envío */}
+                    <form onSubmit={handleLogin}>
                         <div className="grid w-full items-center gap-4 mb-4">
                             <div className="flex flex-col items-start space-y-1.5">
                                 <label className=" text-sm">{t('LABELS.EMAIL')}</label>
@@ -77,7 +51,6 @@ function LoginForm({ switchForm }: LoginFormProps) {
                             <a className="text-chart-2 underline text-sm" href="#" onClick={() => { }}>{t('BUTTONS.FORGOT_PASSWORD')}</a>
                         </div>
 
-                        {/* Muestra el error si existe */}
                         {error && <p className="text-red-500 text-sm">{error}</p>}
 
                         <CardFooter className="flex flex-col gap-6 p-0 mt-10">
@@ -85,9 +58,9 @@ function LoginForm({ switchForm }: LoginFormProps) {
                                 className="w-full text-xl p-6"
                                 variant="outline"
                                 type="submit"
-                                disabled={loading} // Deshabilita el botón si está en carga
+                                disabled={loading}
                             >
-                                {loading ? t("BUTTONS.LOADING") : t("BUTTONS.LOGIN")} {/* Cambia el texto durante la carga */}
+                                {loading ? t("BUTTONS.LOADING") : t("BUTTONS.LOGIN")}
                             </Button>
                             <p className="text-sm">
                                 {t('ARE_YOU_NOT_REGISTERED')}{" "}

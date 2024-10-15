@@ -1,25 +1,21 @@
+import { authService } from '@/modules/auth/application/auth.service';
 import { useAuth } from './useAuth';
+import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
+import { useState } from 'react';
 
 export const useLogin = () => {
     const { setAccessToken } = useAuth();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
 
     const login = async (email: string, password: string) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-                credentials: 'include',  // Para enviar cookies (refresh token)
-            });
-
-            if (!response.ok) {
-                throw new Error('Login failed');
-            }
-
-            const data = await response.json();
-            setAccessToken(data.accessToken);  // Almacena el access token en el contexto
+            const authServiceImpl = authService(createAuthRepository())
+            const data = await authServiceImpl.loginUser({ email, password });
+            setAccessToken(data.accessToken);
 
             return data;
         } catch (error) {
@@ -28,5 +24,21 @@ export const useLogin = () => {
         }
     };
 
-    return { login };
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        try {
+            await login(username, password);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error) {
+            setError('Invalid email or password');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    return { handleLogin, username, setUsername, password, setPassword, loading, error };
 };

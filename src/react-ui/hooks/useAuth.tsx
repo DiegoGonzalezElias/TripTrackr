@@ -1,3 +1,5 @@
+import { authService } from '@/modules/auth/application/auth.service';
+import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 interface AuthContextProps {
@@ -21,11 +23,15 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const refreshAccessToken = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/refresh-token`, {
+      /* const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/refresh-token`, {
         method: 'POST',
         credentials: 'include'
       });
-      const data = await response.json();
+      const data = await response.json(); */
+      const authServiceImpl = authService(createAuthRepository())
+
+      const data = await authServiceImpl.getToken()
+
       setAccessToken(data.accessToken);
       setIsGettingAccessToken(false);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

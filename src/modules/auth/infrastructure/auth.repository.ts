@@ -1,31 +1,49 @@
 import { User } from '../../user/domain/user.model.ts';
-import { AuthRepository, Login } from '../domain/auth.model.ts';
+import { AccessToken, AuthRepository, Login } from '../domain/auth.model.ts';
 
 export function createAuthRepository(): AuthRepository {
     return {
         getToken,
         loginUser,
-        createFirstUser,
+        registerUser,
         refreshTokens,
     };
 }
 
-function getToken(): string | null {
+async function getToken(): Promise<AccessToken> {
 
-    //TODO: change this fake implementation
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/refresh-token`, {
+        method: 'POST',
+        credentials: 'include'
+    });
 
-    const userToken: string | null = null;
-    return userToken;
+    const data = await response.json() as AccessToken;
+
+    return data;
 
 }
 
-function loginUser(data: Login): Promise<Request> {
-    //TODO: change this fake implementation
-    console.log(data);
-    return Promise.resolve({} as Request);
+async function loginUser(data: Login): Promise<AccessToken> {
+    const { email, password } = data
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw new Error('Login failed');
+    }
+
+    const JSONdata = await response.json() as AccessToken;
+
+    return JSONdata;
 }
 
-function createFirstUser(data: User): Promise<Request> {
+function registerUser(data: User): Promise<Request> {
     //TODO: change this fake implementation
     console.log(data);
     return Promise.resolve({} as Request);

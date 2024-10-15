@@ -8,13 +8,12 @@ export const authService = (authRepository: AuthRepository): AuthRepository => (
     },
 
     loginUser: (data: Login) => {
-
         return authRepository.loginUser(data);
     },
 
-    createFirstUser: (data: User) => {
+    registerUser: (data: User) => {
 
-        return authRepository.createFirstUser(data);
+        return authRepository.registerUser(data);
     },
 
     refreshTokens: (newRefreshToken: string) => {
