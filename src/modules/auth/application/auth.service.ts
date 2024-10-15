@@ -1,5 +1,4 @@
-import { User } from '../../user/domain/user.model.ts';
-import { AuthRepository, Login } from '../domain/auth.model.ts';
+import { AuthRepository, Login, Register } from '../domain/auth.model.ts';
 
 
 export const authService = (authRepository: AuthRepository): AuthRepository => ({
@@ -11,15 +10,14 @@ export const authService = (authRepository: AuthRepository): AuthRepository => (
         return authRepository.loginUser(data);
     },
 
-    registerUser: (data: User) => {
-
+    registerUser: (data: Register) => {
         return authRepository.registerUser(data);
     },
 
-    refreshTokens: (newRefreshToken: string) => {
+    /* refreshTokens: (newRefreshToken: string) => {
 
         return authRepository.refreshTokens(newRefreshToken);
-    },
+    }, */
 
 
 });

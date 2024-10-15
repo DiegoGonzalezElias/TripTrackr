@@ -1,17 +1,15 @@
-import { User } from '../../user/domain/user.model.ts';
-import { AccessToken, AuthRepository, Login } from '../domain/auth.model.ts';
+import { AccessToken, AuthRepository, Login, Register } from '../domain/auth.model.ts';
 
 export function createAuthRepository(): AuthRepository {
     return {
         getToken,
         loginUser,
         registerUser,
-        refreshTokens,
+        //refreshTokens,
     };
 }
 
 async function getToken(): Promise<AccessToken> {
-
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/refresh-token`, {
         method: 'POST',
         credentials: 'include'
@@ -43,14 +41,28 @@ async function loginUser(data: Login): Promise<AccessToken> {
     return JSONdata;
 }
 
-function registerUser(data: User): Promise<Request> {
-    //TODO: change this fake implementation
-    console.log(data);
-    return Promise.resolve({} as Request);
-}
+async function registerUser(data: Register): Promise<AccessToken> {
+    const { email, password, confirmPassword } = data
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, confirmPassword }),
+        credentials: 'include',
+    });
 
+    if (!response.ok) {
+        throw new Error('Registration failed');
+    }
+
+    const JSONdata = await response.json() as AccessToken;
+
+    return JSONdata;
+}
+/* 
 function refreshTokens(newRefreshToken: string): Promise<Request> {
     //TODO: change this fake implementation
     console.log(newRefreshToken);
     return Promise.resolve({} as Request);
-}
+} */

@@ -1,15 +1,21 @@
-import { User } from '../../user/domain/user.model.ts';
+
 
 export interface AuthRepository {
     loginUser: (data: Login) => Promise<AccessToken>,
-    registerUser: (data: User) => Promise<Request>,
+    registerUser: (data: Register) => Promise<AccessToken>,
     getToken: () => Promise<AccessToken>,
-    refreshTokens: (newRefreshToken: string) => Promise<Request>,
+    //refreshTokens: (newRefreshToken: string) => Promise<Request>,
 }
 
 export interface Login {
     email: string,
     password: string
+}
+
+export interface Register {
+    email: string,
+    password: string,
+    confirmPassword: string
 }
 
 export interface AccessToken {

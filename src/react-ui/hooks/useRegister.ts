@@ -4,28 +4,29 @@ import { createAuthRepository } from '@/modules/auth/infrastructure/auth.reposit
 import { useState } from 'react';
 import validator from 'validator';
 
-export const useLogin = () => {
+export const useRegister = () => {
     const { setAccessToken } = useAuth();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
 
-    const login = async (email: string, password: string) => {
+    const register = async (email: string, password: string, confirmPassword: string) => {
         try {
             const authServiceImpl = authService(createAuthRepository())
-            const data = await authServiceImpl.loginUser({ email, password });
+            const data = await authServiceImpl.registerUser({ email, password, confirmPassword });
             setAccessToken(data.accessToken);
 
             return data;
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('Registration failed:', error);
             throw error;
         }
     };
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -36,8 +37,14 @@ export const useLogin = () => {
             return
         }
 
+        if (password !== confirmPassword) {
+            setError('Passwords are not equal')
+            setLoading(false);
+            return
+        }
+
         try {
-            await login(username, password);
+            await register(username, password, confirmPassword);
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             setError('Invalid email or password');
@@ -47,5 +54,5 @@ export const useLogin = () => {
     };
 
 
-    return { handleLogin, username, setUsername, password, setPassword, loading, error };
+    return { handleRegister, username, setUsername, password, setPassword, confirmPassword, setConfirmPassword, loading, error };
 };
