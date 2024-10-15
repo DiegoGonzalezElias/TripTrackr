@@ -18,15 +18,12 @@ function LoginForm({ switchForm }: LoginFormProps) {
     const { login } = useLogin(); // Usa el hook de login
 
     const handleLogin = async (e: React.FormEvent) => {
-        console.log('username: ', username);
         e.preventDefault();
         setLoading(true); // Activa el estado de carga
         setError(null);   // Resetea el estado de error
 
         try {
             // Llama al login con los datos del formulario
-            console.log('username: ', username);
-            console.log('password: ', password);
             await login(username, password);
 
             // Redirige a la vista de MapView o realiza la acción necesaria

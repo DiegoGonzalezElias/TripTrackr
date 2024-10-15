@@ -5,7 +5,7 @@ export const useLogin = () => {
 
     const login = async (email: string, password: string) => {
         try {
-            const response = await fetch('http://localhost:3000/api/auth/login', {
+            const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -21,7 +21,6 @@ export const useLogin = () => {
             const data = await response.json();
             setAccessToken(data.accessToken);  // Almacena el access token en el contexto
 
-            console.log('return of data from login hook: ', data);
             return data;
         } catch (error) {
             console.error('Login failed:', error);
