@@ -23,11 +23,6 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const refreshAccessToken = async () => {
     try {
-      /* const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/auth/refresh-token`, {
-        method: 'POST',
-        credentials: 'include'
-      });
-      const data = await response.json(); */
       const authServiceImpl = authService(createAuthRepository())
 
       const data = await authServiceImpl.getToken()
