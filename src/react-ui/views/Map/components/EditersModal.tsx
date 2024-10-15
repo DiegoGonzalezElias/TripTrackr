@@ -29,9 +29,9 @@ function EditersModal({ emails }: EditersModalProps) {
                             />
                         </div>
                         <ul>
-                            {emails.map((email) => {
+                            {emails.map((email, index) => {
                                 return (
-                                    <li>{email}</li>
+                                    <li key={index}>{email}</li>
                                 )
                             })}
                         </ul>

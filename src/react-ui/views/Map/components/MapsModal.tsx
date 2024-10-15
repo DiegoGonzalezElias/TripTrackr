@@ -16,9 +16,9 @@ function MapsModal({ maps }: MapsModalProps) {
                 <CardContent className="px-0 mt-6">
                     <form className='text-start'>
                         <ul>
-                            {maps.map((map) => {
+                            {maps.map((map, index) => {
                                 return (
-                                    <li>{map}</li>
+                                    <li key={index}>{map}</li>
                                 )
                             })}
                         </ul>
