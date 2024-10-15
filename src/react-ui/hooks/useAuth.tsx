@@ -3,6 +3,8 @@ import { createAuthRepository } from '@/modules/auth/infrastructure/auth.reposit
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 interface AuthContextProps {
+  user: string | null;
+  setUser: (email: string | null) => void;
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;
   isGettingAccessToken: boolean
@@ -17,7 +19,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<Props> = ({ children }) => {
 
 
-
+  const [user, setUser] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isGettingAccessToken, setIsGettingAccessToken] = useState(true);
 
@@ -42,7 +44,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken, isGettingAccessToken }}>
+    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, isGettingAccessToken }}>
       {children}
     </AuthContext.Provider>
   );

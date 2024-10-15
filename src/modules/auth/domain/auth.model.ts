@@ -1,8 +1,8 @@
 
 
 export interface AuthRepository {
-    loginUser: (data: Login) => Promise<AccessToken>,
-    registerUser: (data: Register) => Promise<AccessToken>,
+    loginUser: (data: Login) => Promise<Auth>,
+    registerUser: (data: Register) => Promise<Auth>,
     getToken: () => Promise<AccessToken>,
     logout: () => Promise<void>
     //refreshTokens: (newRefreshToken: string) => Promise<Request>,
@@ -21,4 +21,9 @@ export interface Register {
 
 export interface AccessToken {
     accessToken: string
+}
+
+export interface Auth {
+    accessToken: string,
+    user: string
 }
