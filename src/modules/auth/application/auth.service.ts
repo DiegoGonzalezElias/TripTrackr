@@ -14,6 +14,10 @@ export const authService = (authRepository: AuthRepository): AuthRepository => (
         return authRepository.registerUser(data);
     },
 
+    logout: () => {
+        return authRepository.logout();
+    }
+
     /* refreshTokens: (newRefreshToken: string) => {
 
         return authRepository.refreshTokens(newRefreshToken);

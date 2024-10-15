@@ -4,6 +4,7 @@ export interface AuthRepository {
     loginUser: (data: Login) => Promise<AccessToken>,
     registerUser: (data: Register) => Promise<AccessToken>,
     getToken: () => Promise<AccessToken>,
+    logout: () => Promise<void>
     //refreshTokens: (newRefreshToken: string) => Promise<Request>,
 }
 

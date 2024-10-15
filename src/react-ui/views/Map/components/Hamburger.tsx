@@ -12,10 +12,12 @@ import EditersModal from "./EditersModal";
 import MapsModal from "./MapsModal";
 import AccountModal from "./AccountModal";
 import DeleteAccModal from "./DeleteAccModal";
+import { useLogout } from "@/react-ui/hooks/useLogout";
 
 function Hamburger() {
     const { t } = useTranslation();
-    const { isModalOpen, modalTitle, openModal, closeModal } = useModal(); // Utilizamos el hook
+    const { isModalOpen, modalTitle, openModal, closeModal } = useModal();
+    const { logout } = useLogout()
 
     return (
         <>
@@ -92,7 +94,7 @@ function Hamburger() {
                         <div className="pt-6">
                             <p>{t('DO_YOU_WANT_TO_LOGOUT')}</p>
                             <div className="flex p-0 pt-6">
-                                <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.LOGOUT')}</Button>
+                                <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={logout}>{t('BUTTONS.LOGOUT')}</Button>
                             </div>
                         </div>
                     )}
