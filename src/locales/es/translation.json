@@ -14,7 +14,8 @@
         "SELECT": "Seleccionar",
         "CHANGE_PASSWORD": "Cambiar contraseña",
         "DELETE": "Eliminar",
-        "LOADING": "Cargando"
+        "LOADING": "Cargando",
+        "CREATE_MAP": "Crear mapa"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",
@@ -34,7 +35,8 @@
         "ADD_EDITOR": "Añadir editor",
         "OLD_PASS": "Contraseña antigua",
         "NEW_PASS": "Contraseña nueva",
-        "DELETE_ACC": "Ecribe 'Delete' para eliminar tu cuenta"
+        "DELETE_ACC": "Ecribe 'Delete' para eliminar tu cuenta",
+        "MAP": "Mapa"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",
@@ -44,14 +46,16 @@
         "SELECT_DATE": "Elige una fecha",
         "OLD_PASS": "Añade tu contraseña actual",
         "NEW_PASS": "Escribe la nueva contraseña",
-        "DELETE_ACC": "Delete"
+        "DELETE_ACC": "Delete",
+        "ADD_MAP_NAME": "Indica el nombre de tu mapa"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",
         "LOGIN": "LOGIN",
         "REGISTER": "REGISTRAR",
         "WELCOME_BUDDY": "Welcome Buddy 👋",
-        "WELCOME_BACK": "Welcome Back 👋"
+        "WELCOME_BACK": "Welcome Back 👋",
+        "CREATE_FIRST_MAP": "Crea tu primer mapa"
     },
     "CARD_DESCRIPTION": {
         "ADD_YOUR_MARKER": "Añade tu marcador",
