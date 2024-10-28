@@ -1,11 +1,12 @@
 import Map from "@/react-ui/views/Map/components/Map"
 import Hamburger from "./components/Hamburger"
 import FirstMapModal from "./components/FirstMapModal"
-import { useState } from "react"
+import { useMapManagement } from "@/react-ui/hooks/userMapManagement";
 
 function MapView() {
 
-  const [hasMap, setHasMap] = useState(false)
+  const { hasMap } = useMapManagement();
+
   //TODO: change hasMap calling to API asking for user map list
   //In case empty has no map and displays the modal to create one
   //In case it is not empty, call to obtain the first map on that list to display data on map

@@ -1,10 +1,27 @@
 import { Button } from '@/react-ui/components/button'
 import Modal from '@/react-ui/components/Modal'
+import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function FirstMapModal() {
-    const [map, setMap] = useState('');
+    const [mapName, setMapName] = useState('');
+    const [error, setError] = useState('');
+    const { createMap } = useMapManagement();
+
+    const handleCreateMap = async () => {
+        if (!mapName) {
+            setError("Please provide a map name");
+            return;
+        }
+
+        try {
+            await createMap(mapName);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+            setError("Failed to create map");
+        }
+    };
     const { t } = useTranslation();
 
     return (
@@ -15,14 +32,15 @@ function FirstMapModal() {
                         <label className=" text-gray-600 text-sm">{t('LABELS.MAP')}</label>
                         <input
                             type="text"
-                            value={map}
-                            onChange={(e) => setMap(e.target.value)}
+                            value={mapName}
+                            onChange={(e) => setMapName(e.target.value)}
                             placeholder={t('PLACEHOLDERS.ADD_MAP_NAME')}
                             className="border border-gray-300 rounded-md p-2 w-full mt-2"
                         />
                     </div>
                 </div>
-                <Button type='button' size={'lg'} className='mt-4 w-full bg-chart-2' onClick={() => { }}>{t('BUTTONS.CREATE_MAP')}</Button>
+                <Button type='button' size={'lg'} className='mt-4 w-full bg-chart-2' onClick={handleCreateMap}>{t('BUTTONS.CREATE_MAP')}</Button>
+                {error && <p className="error">{error}</p>}
             </form>
         </Modal>
     )
