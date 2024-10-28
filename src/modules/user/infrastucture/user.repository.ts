@@ -1,67 +1,21 @@
-import { Role, User, UserRepository } from '../domain/user.model.ts';
+import { UserRepository } from '../domain/user.model.ts';
 
 export function createUserRepository(): UserRepository {
     return {
-        getMyRole,
-        getNumberOfUsers,
-        getCurrentUserName,
-        getCurrentUserId,
-        getUsers,
-        getUserById,
-        modifyUserById,
-        createNewUser,
-        removeUserById,
+        getUserMaps
     };
 }
 
-function getMyRole(): Role {
+async function getUserMaps(token: string) {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/user/user-maps`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
 
-    //TODO: change this fake implementation
+    const maps = await response.json();
 
-    const userRole: Role = Role.Viewer;
-    return userRole;
-}
-
-function getNumberOfUsers(): Promise<number> {
-    //TODO: change this fake implementation
-    return Promise.resolve(1);
-}
-
-function getCurrentUserName(): string {
-    //TODO: change this fake implementation
-    return 'defaultUserName';
-}
-
-function getCurrentUserId(): string {
-    //TODO: change this fake implementation
-    return 'defaultUserID';
-}
-
-function getUsers(): Promise<User[]> {
-    //TODO: change this fake implementation
-    return Promise.resolve([] as User[]);
-}
-
-function getUserById(id: string): Promise<User> {
-    //TODO: change this fake implementation
-    console.log(id);
-    return Promise.resolve({} as User);
-}
-
-function modifyUserById(id: string, data: User): Promise<Request> {
-    //TODO: change this fake implementation
-    console.log(`${id}&${data.userName}`);
-    return Promise.resolve({} as Request);
-}
-
-function createNewUser(data: User): Promise<Request> {
-    //TODO: change this fake implementation
-    console.log(`${data.userName}`);
-    return Promise.resolve({} as Request);
-}
-
-function removeUserById(id: string): Promise<Request> {
-    //TODO: change this fake implementation
-    console.log(`${id}`);
-    return Promise.resolve({} as Request);
+    return maps.maps;
 }
