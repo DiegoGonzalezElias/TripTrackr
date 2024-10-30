@@ -2,6 +2,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import RegisterForm from './RegisterForm';
+import { AuthProvider } from '@/react-ui/hooks/useAuth';
 
 
 jest.mock('react-i18next', () => ({
@@ -10,9 +11,22 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+jest.mock('@/react-ui/hooks/useAuth', () => {
+    return {
+        AuthProvider: ({ children }: React.PropsWithChildren<object>) => <div>{children}</div>,
+        useAuth: () => ({
+            user: { name: 'Test User' },
+        }),
+    };
+});
+
 describe('RegisterForm', () => {
     it('should renders the register form with inputs and buttons', () => {
-        render(<RegisterForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <RegisterForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         expect(screen.getByText('CARD_TITLE.WELCOME_BUDDY')).toBeInTheDocument();
         expect(screen.getByPlaceholderText('PLACEHOLDERS.ADD_EMAIL')).toBeInTheDocument();
@@ -23,7 +37,11 @@ describe('RegisterForm', () => {
     });
 
     it('should updates the email, password and repit password when typed into the input fields', () => {
-        render(<RegisterForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <RegisterForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         const emailInput = screen.getByPlaceholderText('PLACEHOLDERS.ADD_EMAIL');
         const passwordInput = screen.getByPlaceholderText('PLACEHOLDERS.ADD_PASSWORD');
@@ -40,7 +58,11 @@ describe('RegisterForm', () => {
 
     it('should calls the switchForm function when the login link is clicked', () => {
         const mockSwitchForm = jest.fn();
-        render(<RegisterForm switchForm={mockSwitchForm} />);
+        render(
+            <AuthProvider>
+                <RegisterForm switchForm={mockSwitchForm} />
+            </AuthProvider>
+        );
 
         const loginLink = screen.getByText('BUTTONS.LOGIN');
 
@@ -50,7 +72,11 @@ describe('RegisterForm', () => {
     });
 
     it('should renders the copyright text', () => {
-        render(<RegisterForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <RegisterForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         expect(screen.getByText('©2025 ALL RIGHTS RESERVED')).toBeInTheDocument();
     });

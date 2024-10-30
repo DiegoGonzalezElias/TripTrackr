@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "start:dev": "vite --mode dev",
-    "start:pro": "env-cmd -f ./environments/.env.pro vite",
+    "start:pro": "vite --mode pro",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -67,6 +67,7 @@
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.11",
     "ts-jest": "^29.2.5",
+    "ts-jest-mock-import-meta": "^1.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",

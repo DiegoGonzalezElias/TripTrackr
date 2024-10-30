@@ -58,11 +58,11 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
 
                         {/* Descripción */}
                         <div className="mb-4">
-                            <label className=" text-gray-600 text-sm">Descripción</label>
+                            <label className=" text-gray-600 text-sm">{t('LABELS.DESCRIPTION')}</label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Añadir descripción"
+                                placeholder={t('PLACEHOLDERS.ADD_DESCRIPTION')}
                                 className="border border-gray-300 rounded-md p-2 w-full mt-[6px]"
                             />
                         </div>

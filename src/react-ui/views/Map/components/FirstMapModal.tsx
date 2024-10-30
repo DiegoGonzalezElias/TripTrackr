@@ -1,13 +1,14 @@
 import { Button } from '@/react-ui/components/button'
 import Modal from '@/react-ui/components/Modal'
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function FirstMapModal() {
     const [mapName, setMapName] = useState('');
     const [error, setError] = useState('');
     const { createMap } = useMapManagement();
+    const { t } = useTranslation();
 
     const handleCreateMap = async () => {
         if (!mapName) {
@@ -22,7 +23,7 @@ function FirstMapModal() {
             setError("Failed to create map");
         }
     };
-    const { t } = useTranslation();
+
 
     return (
         <Modal title={t('CARD_TITLE.CREATE_FIRST_MAP')} onClose={() => { }}>

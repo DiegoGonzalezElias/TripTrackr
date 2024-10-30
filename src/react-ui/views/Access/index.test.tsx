@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import AccessView from "./index";
 import '@testing-library/jest-dom';
+import { AuthProvider } from "@/react-ui/hooks/useAuth";
 
 jest.mock("./components/LoginForm", () => ({
     __esModule: true,
@@ -22,10 +23,23 @@ jest.mock("./components/RegisterForm", () => ({
     ),
 }));
 
+jest.mock('@/react-ui/hooks/useAuth', () => {
+    return {
+        AuthProvider: ({ children }: React.PropsWithChildren<object>) => <div>{children}</div>,
+        useAuth: () => ({
+            user: { name: 'Test User' },
+        }),
+    };
+});
+
 describe("AccessView", () => {
     test("renders the login form by default", () => {
         // Renderiza el componente
-        render(<AccessView />);
+        render(
+            <AuthProvider>
+                <AccessView />
+            </AuthProvider>
+        );
 
         // Verifica que el LoginForm esté presente en el documento
         expect(screen.getByText("LoginForm")).toBeInTheDocument();
@@ -34,7 +48,11 @@ describe("AccessView", () => {
 
     test("switches to the register form when the switch button is clicked", () => {
         // Renderiza el componente
-        render(<AccessView />);
+        render(
+            <AuthProvider>
+                <AccessView />
+            </AuthProvider>
+        );
 
         // Verifica que el LoginForm esté presente al inicio
         expect(screen.getByText("LoginForm")).toBeInTheDocument();
@@ -49,7 +67,11 @@ describe("AccessView", () => {
 
     test("switches back to the login form when the switch button is clicked again", () => {
         // Renderiza el componente
-        render(<AccessView />);
+        render(
+            <AuthProvider>
+                <AccessView />
+            </AuthProvider>
+        );
 
         // Simula el cambio a RegisterForm
         fireEvent.click(screen.getByText("Switch to Register"));

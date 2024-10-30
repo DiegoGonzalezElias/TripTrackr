@@ -1,8 +1,8 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
-import { t } from "i18next"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 
 interface EditersModalProps {
@@ -12,6 +12,7 @@ interface EditersModalProps {
 function EditersModal({ emails }: EditersModalProps) {
 
     const [newEditor, setNewEditor] = useState("")
+    const { t } = useTranslation();
 
     return (
         <div>
