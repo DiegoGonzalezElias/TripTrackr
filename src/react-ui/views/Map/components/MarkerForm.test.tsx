@@ -44,7 +44,7 @@ describe('MarkerFrom Component', () => {
         expect(screen.getByPlaceholderText('PLACEHOLDERS.MARKER_TEXT')).toHaveValue('Test Marker');
     });
 
-    it('should updates the marker text when typing', () => {
+    it('should updates the marker title when typing', () => {
         render(
             <MarkerFrom
                 newMarkerText="Test Marker"

@@ -36,7 +36,8 @@
         "OLD_PASS": "Contraseña antigua",
         "NEW_PASS": "Contraseña nueva",
         "DELETE_ACC": "Ecribe 'Delete' para eliminar tu cuenta",
-        "MAP": "Mapa"
+        "MAP": "Mapa",
+        "DESCRIPTION": "Descripción"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",
@@ -47,7 +48,8 @@
         "OLD_PASS": "Añade tu contraseña actual",
         "NEW_PASS": "Escribe la nueva contraseña",
         "DELETE_ACC": "Delete",
-        "ADD_MAP_NAME": "Indica el nombre de tu mapa"
+        "ADD_MAP_NAME": "Indica el nombre de tu mapa",
+        "ADD_DESCRIPTION": "Añadir descripción"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",

@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Hamburger from './Hamburger';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '@/react-ui/hooks/useAuth';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -8,16 +9,32 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+jest.mock('@/react-ui/hooks/useAuth', () => {
+    return {
+        AuthProvider: ({ children }: React.PropsWithChildren<object>) => <div>{children}</div>,
+        useAuth: () => ({
+            user: { name: 'Test User' },
+        }),
+    };
+});
+
 describe('Hamburger Component', () => {
     it('should renders the hamburger button', () => {
-        render(<Hamburger />);
+        render(
+            <AuthProvider>
+                <Hamburger />
+            </AuthProvider>
+
+        );
 
         const hamburgerButton = screen.getByRole('button');
         expect(hamburgerButton).toBeInTheDocument();
     });
 
     it('should displays menu content on button click', () => {
-        render(<Hamburger />);
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
 
         const menuContent = screen.queryByText('HAMBURGER_MENU.EDITORS');
         expect(menuContent).not.toBeInTheDocument();
@@ -31,12 +48,84 @@ describe('Hamburger Component', () => {
         expect(screen.getByText('HAMBURGER_MENU.MAPS')).toBeInTheDocument();
     });
 
+    it('should appear maps button and click it', () => {
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
+
+        const hamburgerButton = screen.getByTestId('hamburger-button');
+        fireEvent.click(hamburgerButton);
+
+        const mapsButton = screen.getByText('HAMBURGER_MENU.MAPS');
+        fireEvent.click(mapsButton);
+
+        expect(mapsButton).toBeInTheDocument();
+    });
+
+    it('should appear account button and click it', () => {
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
+
+        const hamburgerButton = screen.getByTestId('hamburger-button');
+        fireEvent.click(hamburgerButton);
+
+        const accountButton = screen.getByText('HAMBURGER_MENU.ACCOUNT');
+        fireEvent.click(accountButton);
+
+        expect(accountButton).toBeInTheDocument();
+    });
+
+    it('should appear logout button and click it', () => {
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
+
+        const hamburgerButton = screen.getByTestId('hamburger-button');
+        fireEvent.click(hamburgerButton);
+
+        const logoutButton = screen.getByText('HAMBURGER_MENU.LOGOUT');
+        fireEvent.click(logoutButton);
+
+        expect(logoutButton).toBeInTheDocument();
+    });
+
+    it('should appear editors button and click it', () => {
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
+
+        const hamburgerButton = screen.getByTestId('hamburger-button');
+        fireEvent.click(hamburgerButton);
+
+        const editorsButton = screen.getByText('HAMBURGER_MENU.EDITORS');
+        fireEvent.click(editorsButton);
+
+        expect(editorsButton).toBeInTheDocument();
+    });
+
     test('displays delete account option', () => {
-        render(<Hamburger />);
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
 
         const hamburgerButton = screen.getByRole('button');
         fireEvent.click(hamburgerButton);
 
         expect(screen.getByText('HAMBURGER_MENU.DELETE_ACCOUNT')).toBeInTheDocument();
+    });
+
+    it('should appear delete account button and click it', () => {
+        render(<AuthProvider>
+            <Hamburger />
+        </AuthProvider>);
+
+        const hamburgerButton = screen.getByTestId('hamburger-button');
+        fireEvent.click(hamburgerButton);
+
+        const deleteButton = screen.getByText('HAMBURGER_MENU.DELETE_ACCOUNT');
+        fireEvent.click(deleteButton);
+
+        expect(deleteButton).toBeInTheDocument();
     });
 });

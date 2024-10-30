@@ -1,7 +1,7 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
-import { t } from "i18next"
+import { useTranslation } from "react-i18next";
 
 
 interface MapsModalProps {
@@ -9,6 +9,8 @@ interface MapsModalProps {
 }
 
 function MapsModal({ maps }: MapsModalProps) {
+
+    const { t } = useTranslation();
 
     return (
         <div>

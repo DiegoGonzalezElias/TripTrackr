@@ -2,6 +2,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import LoginForm from './LoginForm';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '@/react-ui/hooks/useAuth';
 
 
 jest.mock('react-i18next', () => ({
@@ -10,9 +11,22 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+jest.mock('@/react-ui/hooks/useAuth', () => {
+    return {
+        AuthProvider: ({ children }: React.PropsWithChildren<object>) => <div>{children}</div>,
+        useAuth: () => ({
+            user: { name: 'Test User' },
+        }),
+    };
+});
+
 describe('LoginForm', () => {
     it('should renders the login form with inputs and buttons', () => {
-        render(<LoginForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <LoginForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         expect(screen.getByText('CARD_TITLE.WELCOME_BUDDY')).toBeInTheDocument();
         expect(screen.getByPlaceholderText('PLACEHOLDERS.ADD_EMAIL')).toBeInTheDocument();
@@ -23,7 +37,11 @@ describe('LoginForm', () => {
     });
 
     it('should updates the email and password when typed into the input fields', () => {
-        render(<LoginForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <LoginForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         const emailInput = screen.getByPlaceholderText('PLACEHOLDERS.ADD_EMAIL');
         const passwordInput = screen.getByPlaceholderText('PLACEHOLDERS.ADD_PASSWORD');
@@ -37,7 +55,11 @@ describe('LoginForm', () => {
 
     it('should calls the switchForm function when the register link is clicked', () => {
         const mockSwitchForm = jest.fn();
-        render(<LoginForm switchForm={mockSwitchForm} />);
+        render(
+            <AuthProvider>
+                <LoginForm switchForm={mockSwitchForm} />
+            </AuthProvider>
+        );
 
         const registerLink = screen.getByText('BUTTONS.REGISTER');
 
@@ -47,7 +69,11 @@ describe('LoginForm', () => {
     });
 
     it('should renders forgot password link', () => {
-        render(<LoginForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <LoginForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         const forgotPasswordLink = screen.getByText('BUTTONS.FORGOT_PASSWORD');
 
@@ -55,7 +81,11 @@ describe('LoginForm', () => {
     });
 
     it('should renders the copyright text', () => {
-        render(<LoginForm switchForm={jest.fn()} />);
+        render(
+            <AuthProvider>
+                <LoginForm switchForm={jest.fn()} />
+            </AuthProvider>
+        );
 
         expect(screen.getByText('©2025 ALL RIGHTS RESERVED')).toBeInTheDocument();
     });

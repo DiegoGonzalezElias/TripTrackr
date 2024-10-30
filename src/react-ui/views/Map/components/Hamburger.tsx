@@ -23,7 +23,7 @@ function Hamburger() {
         <>
             <Popover.Root>
                 <Popover.Trigger asChild>
-                    <Button className="bg-white hover:bg-slate-50 p-4 h-14">
+                    <Button data-testid="hamburger-button" className="bg-white hover:bg-slate-50 p-4 h-14">
                         <HamburgerMenuIcon className="w-8 h-8 text-black" />
                     </Button>
                 </Popover.Trigger>
