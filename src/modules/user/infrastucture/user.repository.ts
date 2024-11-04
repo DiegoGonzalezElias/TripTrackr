@@ -1,3 +1,4 @@
+import { ErrorWithResponse } from '@/lib/types.ts';
 import { UserRepository } from '../domain/user.model.ts';
 
 export function createUserRepository(): UserRepository {
@@ -14,6 +15,12 @@ async function getUserMaps(token: string) {
             'Authorization': `Bearer ${token}`,
         }
     });
+
+    if (!response.ok) {
+        const error: ErrorWithResponse = new Error('Error fetching user maps');
+        error.response = response; // asignar la respuesta completa
+        throw error;
+    }
 
     const maps = await response.json();
 

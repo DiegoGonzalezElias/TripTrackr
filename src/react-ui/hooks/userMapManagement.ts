@@ -5,9 +5,12 @@ import { createUserRepository } from "@/modules/user/infrastucture/user.reposito
 import { useAuth } from "@/react-ui/hooks/useAuth";
 import { mapService } from '@/modules/map/application/map.service';
 import { createMapRepository } from '@/modules/map/infrastructure/map.repository';
+import { IMarker } from '@/modules/map/domain/map.model';
+import { authService } from '@/modules/auth/application/auth.service';
+import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
 
 export function useMapManagement() {
-    const { accessToken } = useAuth();
+    const { accessToken, setAccessToken } = useAuth();
     const [hasMap, setHasMap] = useState(true);
 
     // Fetching user maps using SWR
@@ -20,8 +23,52 @@ export function useMapManagement() {
                 return fetchedMaps;
             }
 
+        },
+        {
+            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
+                if (error.response?.status === 403) {
+                    // Intentar renovar el token
+                    const authServiceImpl = authService(createAuthRepository());
+                    const newToken = await authServiceImpl.getToken();
+                    if (newToken.accessToken) {
+                        setAccessToken(newToken.accessToken);
+                        revalidate({ retryCount: retryCount + 1 });
+                    }
+                }
+            },
         }
     );
+
+    const { data: markers, error: markerError, mutate: mutateMarkers } = useSWR(
+        accessToken ? ['markers', accessToken] : null,
+        async () => {
+            if (accessToken && maps) {
+                const mapServiceImpl = mapService(createMapRepository());
+                const fetchedMarkers = await mapServiceImpl.getMarkers(accessToken, maps[0]);
+                return fetchedMarkers;
+            }
+
+        },
+        {
+            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
+                if (error.response?.status === 403) {
+                    // Intentar renovar el token
+                    const authServiceImpl = authService(createAuthRepository());
+                    const newToken = await authServiceImpl.getToken();
+                    if (newToken.accessToken) {
+                        setAccessToken(newToken.accessToken);
+                        revalidate({ retryCount: retryCount + 1 });
+                    }
+                }
+            },
+        }
+    );
+
+    useEffect(() => {
+        if (maps && accessToken) {
+            mutateMarkers();
+        }
+    }, [maps, accessToken, mutateMarkers]);
 
     // Effect to check if user has maps
     useEffect(() => {
@@ -34,7 +81,6 @@ export function useMapManagement() {
         if (accessToken) {
             const mapServiceImpl = mapService(createMapRepository());
 
-            console.log('mapName hook: ', mapName)
             await mapServiceImpl.createMap(accessToken, mapName);
 
             // Revalidate the map list after creating a new map
@@ -42,9 +88,23 @@ export function useMapManagement() {
         }
     };
 
+    const addMarker = async (mapName: string, data: IMarker) => {
+        if (accessToken) {
+            const mapServiceImpl = mapService(createMapRepository());
+
+            await mapServiceImpl.addMarker(accessToken, mapName, data);
+
+            mutateMarkers();
+        }
+    };
+
     return {
+        maps,
         hasMap,
         createMap,
-        error
+        addMarker,
+        error,
+        markers,
+        markerError
     };
 }

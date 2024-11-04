@@ -9,15 +9,19 @@ import { format } from 'date-fns';
 import { Calendar } from '@/react-ui/components/calendar';
 import { useMarkerForm } from '@/react-ui/hooks/useMarkerForm';
 import { Button } from '@/react-ui/components/button';
+import { IMarker } from '@/modules/map/domain/map.model';
 
 interface MarkerFormProps {
     newMarkerText: string;
     setNewMarkerText: (value: React.SetStateAction<string>) => void;
-    addMarker: () => void;
+    addMarker: (markerData: IMarker) => Promise<void>;
     closeForm: () => void;
+    lat: string;
+    lng: string;
+    isLoading: boolean;
 }
 
-function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: MarkerFormProps) {
+function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm, lat, lng, isLoading }: MarkerFormProps) {
     const formRef = useRef<HTMLDivElement>(null);
     const { t } = useTranslation();
     const {
@@ -115,7 +119,15 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm }: M
 
 
                         <CardFooter className="flex p-0 mt-10 py-4">
-                            <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={addMarker}>{buttonText}</Button>
+                            <Button disabled={isLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => addMarker({
+                                latitude: lat,
+                                longitude: lng,
+                                category: category,
+                                name: newMarkerText,
+                                description: description,
+                                date: date?.toString()
+                            } as IMarker)}>{buttonText}</Button>
+
                         </CardFooter>
                     </form>
                 </CardContent>
