@@ -6,6 +6,14 @@ export const mapService = (mapRepository: MapRepository): MapRepository => ({
         return mapRepository.createMap(token, mapName);
     },
 
+    deleteMap: (token: string, mapName: string) => {
+        return mapRepository.deleteMap(token, mapName);
+    },
+
+    selectMap: (token: string, mapName: string) => {
+        return mapRepository.selectMap(token, mapName);
+    },
+
     addMarker: (token: string, mapName: string, data: IMarker) => {
         return mapRepository.addMarker(token, mapName, data);
     },

@@ -105,7 +105,7 @@ function Hamburger() {
                     )}
                     {modalTitle === t('HAMBURGER_MENU.MAPS') && (
                         <div>
-                            <MapsModal maps={['mapa name 1', 'mapa name 2']} />
+                            <MapsModal />
                         </div>
                     )}
                     {modalTitle === t('HAMBURGER_MENU.DELETE_ACCOUNT') && (
