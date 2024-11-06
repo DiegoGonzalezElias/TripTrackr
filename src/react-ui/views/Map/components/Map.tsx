@@ -37,6 +37,8 @@ const Map: React.FC = () => {
         position: L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude)),
         text: marker.name,
       })));
+    } else {
+      setLocalMarkers([])
     }
   }, [markers]);
 

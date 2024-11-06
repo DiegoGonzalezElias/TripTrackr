@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 import { userService } from "@/modules/user/application/user.service";
 import { createUserRepository } from "@/modules/user/infrastucture/user.repository";
 import { useAuth } from "@/react-ui/hooks/useAuth";
@@ -14,7 +15,7 @@ export function useMapManagement() {
     const [hasMap, setHasMap] = useState(true);
 
     // Fetching user maps using SWR
-    const { data: maps, error, mutate } = useSWR(
+    const { data: maps, error, mutate: mutateMaps } = useSWR(
         accessToken ? ['userMaps', accessToken] : null,
         async () => {
             if (accessToken) {
@@ -68,14 +69,17 @@ export function useMapManagement() {
         if (maps && accessToken) {
             mutateMarkers();
         }
-    }, [maps, accessToken, mutateMarkers]);
-
-    // Effect to check if user has maps
-    useEffect(() => {
         if (maps) {
             setHasMap(maps.length > 0);
         }
-    }, [maps]);
+    }, [maps, accessToken, mutateMarkers]);
+
+    /*  // Effect to check if user has maps
+     useEffect(() => {
+         if (maps) {
+             setHasMap(maps.length > 0);
+         }
+     }, [maps]); */
 
     const createMap = async (mapName: string) => {
         if (accessToken) {
@@ -84,9 +88,94 @@ export function useMapManagement() {
             await mapServiceImpl.createMap(accessToken, mapName);
 
             // Revalidate the map list after creating a new map
-            mutate();
+            mutateMaps();
         }
     };
+
+
+    const [deleteMapName, setDeleteMapName] = useState<string | null>(null);
+
+    const { trigger: triggerDeleteMap, isMutating: isDeleteMapLoading, error: deleteMapError } = useSWRMutation(
+        ['deleteMap', accessToken],
+        async (key, { arg: mapName }: { arg: string }) => {
+            if (!accessToken) return;
+
+            setDeleteMapName(mapName);
+
+            const mapServiceImpl = mapService(createMapRepository());
+
+            await mapServiceImpl.deleteMap(accessToken, mapName);
+            mutateMaps(); // Recarga la lista de mapas después de eliminar uno
+        },
+        {
+            onError: async (error) => {
+                console.error('Error occurred:', error);
+
+                if (error.response?.status === 403) {
+                    // Attempt token renewal
+                    const authServiceImpl = authService(createAuthRepository());
+                    const newToken = await authServiceImpl.getToken();
+
+                    if (newToken.accessToken) {
+                        setAccessToken(newToken.accessToken);
+
+                        // Reintenta la eliminación del mapa con el nuevo token
+                        const mapServiceImpl = mapService(createMapRepository());
+                        await mapServiceImpl.deleteMap(newToken.accessToken, deleteMapName!);
+                        mutateMaps();
+                    } else {
+                        throw new Error("Token renewal failed");
+                    }
+                } else {
+                    throw error;
+                }
+            },
+        }
+    );
+
+
+    const [selectedMapName, setSelectedMapName] = useState<string | null>(null);
+
+    const { trigger: triggerSelectMap, isMutating: isSelectMapLoading, error: selectMapError } = useSWRMutation(
+        ['selectMap', accessToken],
+        async (key, { arg: mapName }: { arg: string }) => {
+            if (!accessToken) return;
+
+            setSelectedMapName(mapName);
+
+            const mapServiceImpl = mapService(createMapRepository());
+
+            await mapServiceImpl.selectMap(accessToken, mapName);
+            mutateMaps(); // Recarga la lista de mapas después de seleccionar uno
+        },
+        {
+            onError: async (error) => {
+                console.error('Error occurred:', error);
+
+                if (error.response?.status === 403) {
+                    // Attempt token renewal
+                    const authServiceImpl = authService(createAuthRepository());
+                    const newToken = await authServiceImpl.getToken();
+
+                    if (newToken.accessToken) {
+                        setAccessToken(newToken.accessToken);
+
+                        // Reintenta la seleccion del mapa con el nuevo token
+                        const mapServiceImpl = mapService(createMapRepository());
+                        await mapServiceImpl.selectMap(newToken.accessToken, selectedMapName!);
+                        mutateMaps();
+                    } else {
+                        throw new Error("Token renewal failed");
+                    }
+                } else {
+                    throw error;
+                }
+            },
+        }
+    );
+
+
+
 
     const addMarker = async (mapName: string, data: IMarker) => {
         if (accessToken) {
@@ -105,6 +194,12 @@ export function useMapManagement() {
         addMarker,
         error,
         markers,
-        markerError
+        markerError,
+        triggerDeleteMap,
+        deleteMapError,
+        isDeleteMapLoading,
+        triggerSelectMap,
+        isSelectMapLoading,
+        selectMapError
     };
 }

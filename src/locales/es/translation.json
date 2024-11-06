@@ -15,7 +15,8 @@
         "CHANGE_PASSWORD": "Cambiar contraseña",
         "DELETE": "Eliminar",
         "LOADING": "Cargando",
-        "CREATE_MAP": "Crear mapa"
+        "CREATE_MAP": "Crear mapa",
+        "CREATE": "Crear"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",
@@ -37,7 +38,10 @@
         "NEW_PASS": "Contraseña nueva",
         "DELETE_ACC": "Ecribe 'Delete' para eliminar tu cuenta",
         "MAP": "Mapa",
-        "DESCRIPTION": "Descripción"
+        "DESCRIPTION": "Descripción",
+        "SELECT_MAP": "Seleccionar mapa",
+        "CREATE_MAP": "Crear mapa",
+        "DELETE_MAP": "Eliminar mapa"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",
@@ -49,7 +53,9 @@
         "NEW_PASS": "Escribe la nueva contraseña",
         "DELETE_ACC": "Delete",
         "ADD_MAP_NAME": "Indica el nombre de tu mapa",
-        "ADD_DESCRIPTION": "Añadir descripción"
+        "ADD_DESCRIPTION": "Añadir descripción",
+        "MAP_NAME": "Nombre del mapa",
+        "SELECT_MAP": "Seleccionar mapa"
     },
     "CARD_TITLE": {
         "MARKER_MENU": "Menu de marcador",
@@ -67,6 +73,7 @@
     "ARE_YOU_NOT_REGISTERED": "¿No estás registrado?",
     "ARE_YOU_REGISTERED": "¿Ya tienes una cuenta?",
     "DO_YOU_WANT_TO_LOGOUT": "¿Seguro que quieres desloguearte?",
+    "THERE_ARE_NO_MAPS": "Todavia no hay mapas",
     "HAMBURGER_MENU": {
         "EDITORS": "Editores",
         "LOGOUT": "Desconectar",

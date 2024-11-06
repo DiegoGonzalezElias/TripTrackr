@@ -9,6 +9,8 @@ export interface IMarker {
 
 export interface MapRepository {
     createMap: (token: string, mapName: string) => Promise<Response>,
+    deleteMap: (token: string, mapName: string) => Promise<Response>,
+    selectMap: (token: string, mapName: string) => Promise<Response>,
     addMarker: (token: string, mapName: string, data: IMarker) => Promise<Response>,
     getMarkers: (token: string, mapName: string) => Promise<IMarker[]>,
 }
