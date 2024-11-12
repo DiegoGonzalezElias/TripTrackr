@@ -9,6 +9,7 @@ import { createMapRepository } from '@/modules/map/infrastructure/map.repository
 import { IMarker } from '@/modules/map/domain/map.model';
 import { authService } from '@/modules/auth/application/auth.service';
 import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
+import { useMarkersSubscription } from './useWebsocket';
 
 export function useMapManagement() {
     const { accessToken, setAccessToken } = useAuth();
@@ -40,46 +41,20 @@ export function useMapManagement() {
         }
     );
 
-    const { data: markers, error: markerError, mutate: mutateMarkers } = useSWR(
-        accessToken ? ['markers', accessToken] : null,
-        async () => {
-            if (accessToken && maps) {
-                const mapServiceImpl = mapService(createMapRepository());
-                const fetchedMarkers = await mapServiceImpl.getMarkers(accessToken, maps[0]);
-                return fetchedMarkers;
-            }
-
-        },
-        {
-            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
-                if (error.response?.status === 403) {
-                    // Intentar renovar el token
-                    const authServiceImpl = authService(createAuthRepository());
-                    const newToken = await authServiceImpl.getToken();
-                    if (newToken.accessToken) {
-                        setAccessToken(newToken.accessToken);
-                        revalidate({ retryCount: retryCount + 1 });
-                    }
-                }
-            },
-        }
-    );
+    const { markers, error: markerError, subscribe, unsubscribe, addMarker } = useMarkersSubscription();
 
     useEffect(() => {
         if (maps && accessToken) {
-            mutateMarkers();
+            subscribe(maps[0], accessToken);
         }
         if (maps) {
             setHasMap(maps.length > 0);
         }
-    }, [maps, accessToken, mutateMarkers]);
-
-    /*  // Effect to check if user has maps
-     useEffect(() => {
-         if (maps) {
-             setHasMap(maps.length > 0);
-         }
-     }, [maps]); */
+        return () => {
+            // Desuscribirse cuando el componente se desmonte o el mapa cambie
+            unsubscribe();
+        };
+    }, [maps, accessToken]);
 
     const createMap = async (mapName: string) => {
         if (accessToken) {
@@ -177,13 +152,9 @@ export function useMapManagement() {
 
 
 
-    const addMarker = async (mapName: string, data: IMarker) => {
+    const handdleAddMarker = async (mapName: string, data: IMarker) => {
         if (accessToken) {
-            const mapServiceImpl = mapService(createMapRepository());
-
-            await mapServiceImpl.addMarker(accessToken, mapName, data);
-
-            mutateMarkers();
+            addMarker(mapName, data)
         }
     };
 
@@ -191,7 +162,7 @@ export function useMapManagement() {
         maps,
         hasMap,
         createMap,
-        addMarker,
+        handdleAddMarker,
         error,
         markers,
         markerError,

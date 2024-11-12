@@ -26,7 +26,7 @@ interface MarkerData {
 const Map: React.FC = () => {
   const [newMarkerPosition, setNewMarkerPosition] = useState<L.LatLng | null>(null);
   const [newMarkerText, setNewMarkerText] = useState('');
-  const { addMarker: addNewMarker, maps, markers } = useMapManagement();  // get markers from useMapManagement
+  const { handdleAddMarker: addNewMarker, maps, markers } = useMapManagement();  // get markers from useMapManagement
   const [localMarkers, setLocalMarkers] = useState<MarkerData[]>([]); // local state for map markers
   const [isMarkerLoading, setIsMarkerLoading] = useState(false);
 
