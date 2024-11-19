@@ -6,10 +6,9 @@ import { createUserRepository } from "@/modules/user/infrastucture/user.reposito
 import { useAuth } from "@/react-ui/hooks/useAuth";
 import { mapService } from '@/modules/map/application/map.service';
 import { createMapRepository } from '@/modules/map/infrastructure/map.repository';
-import { IMarker } from '@/modules/map/domain/map.model';
 import { authService } from '@/modules/auth/application/auth.service';
 import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
-import { useMarkersSubscription } from './useWebsocket';
+
 
 export function useMapManagement() {
     const { accessToken, setAccessToken } = useAuth();
@@ -41,19 +40,10 @@ export function useMapManagement() {
         }
     );
 
-    const { markers, error: markerError, subscribe, unsubscribe, addMarker } = useMarkersSubscription();
-
     useEffect(() => {
-        if (maps && accessToken) {
-            subscribe(maps[0], accessToken);
-        }
         if (maps) {
             setHasMap(maps.length > 0);
         }
-        return () => {
-            // Desuscribirse cuando el componente se desmonte o el mapa cambie
-            unsubscribe();
-        };
     }, [maps, accessToken]);
 
     const createMap = async (mapName: string) => {
@@ -150,27 +140,44 @@ export function useMapManagement() {
     );
 
 
+    const { data: editors, error: editorsError, isLoading: editorsLoading, mutate: mutateEditors } = useSWR(
+        accessToken ? ['editors', accessToken] : null,
+        async () => {
+            if (accessToken) {
+                const mapServiceImpl = mapService(createMapRepository());
+                const fetchedEditors = await mapServiceImpl.getEditors(accessToken);
+                return fetchedEditors;
+            }
 
-
-    const handdleAddMarker = async (mapName: string, data: IMarker) => {
-        if (accessToken) {
-            addMarker(mapName, data)
+        },
+        {
+            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
+                if (error.response?.status === 403) {
+                    // Intentar renovar el token
+                    const authServiceImpl = authService(createAuthRepository());
+                    const newToken = await authServiceImpl.getToken();
+                    if (newToken.accessToken) {
+                        setAccessToken(newToken.accessToken);
+                        revalidate({ retryCount: retryCount + 1 });
+                    }
+                }
+            },
         }
-    };
+    );
 
     return {
         maps,
         hasMap,
         createMap,
-        handdleAddMarker,
         error,
-        markers,
-        markerError,
         triggerDeleteMap,
         deleteMapError,
         isDeleteMapLoading,
         triggerSelectMap,
         isSelectMapLoading,
-        selectMapError
+        selectMapError,
+        editors,
+        editorsError,
+        editorsLoading
     };
 }

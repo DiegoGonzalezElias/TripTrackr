@@ -81,7 +81,6 @@ function MapsModal() {
                                         className=" bg-chart-2 w-full"
                                         onClick={() => {
                                             // Lógica para manejar la selección del mapa
-                                            console.log("Selected map:", selectedMap);
                                             if (selectedMap) {
                                                 triggerSelectMap(selectedMap)
                                             }
@@ -144,7 +143,6 @@ function MapsModal() {
                                         className=" bg-destructive w-full"
                                         onClick={() => {
                                             // Lógica para manejar la eliminacion del mapa
-                                            console.log("Selected map:", deleteMap);
                                             if (deleteMap) {
                                                 triggerDeleteMap(deleteMap).then(() => setDeleteMap(null));
                                             }

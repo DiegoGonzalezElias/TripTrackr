@@ -3,19 +3,23 @@ import Hamburger from "./components/Hamburger"
 import FirstMapModal from "./components/FirstMapModal"
 import { useMapManagement } from "@/react-ui/hooks/userMapManagement";
 import { useEffect } from "react";
+import { useAuth } from "@/react-ui/hooks/useAuth";
+import { useSocketContext } from "@/react-ui/hooks/socketContext";
 
 function MapView() {
 
   const { hasMap, maps } = useMapManagement();
+  const { accessToken } = useAuth();
+  const { subscribe, unsubscribe } = useSocketContext();
 
   useEffect(() => {
-    console.log('maps -> ', maps)
-  }, [maps])
-
-
-  //TODO: change hasMap calling to API asking for user map list
-  //In case empty has no map and displays the modal to create one
-  //In case it is not empty, call to obtain the first map on that list to display data on map
+    if (maps && accessToken) {
+      subscribe(maps[0], accessToken);
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, [maps]);
 
   return (
     <div className="flex flex-col h-full w-full max-h-[100vh] relative bg-slate-600">

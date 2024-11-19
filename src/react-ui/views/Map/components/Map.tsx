@@ -7,6 +7,8 @@ import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import MarkerFrom from './MarkerFrom';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 import { IMarker } from '@/modules/map/domain/map.model';
+import { useAuth } from '@/react-ui/hooks/useAuth';
+import { useSocketContext } from '@/react-ui/hooks/socketContext';
 
 const defaultIcon = L.icon({
   iconUrl,
@@ -26,9 +28,17 @@ interface MarkerData {
 const Map: React.FC = () => {
   const [newMarkerPosition, setNewMarkerPosition] = useState<L.LatLng | null>(null);
   const [newMarkerText, setNewMarkerText] = useState('');
-  const { handdleAddMarker: addNewMarker, maps, markers } = useMapManagement();  // get markers from useMapManagement
+  const { addMarker: addNewMarker, markers } = useSocketContext();
+  const { maps } = useMapManagement();  // get markers from useMapManagement
   const [localMarkers, setLocalMarkers] = useState<MarkerData[]>([]); // local state for map markers
   const [isMarkerLoading, setIsMarkerLoading] = useState(false);
+  const { accessToken } = useAuth();
+
+  const handdleAddMarker = async (mapName: string, data: IMarker) => {
+    if (accessToken) {
+      addNewMarker(mapName, data)
+    }
+  };
 
   // Update local markers state when SWR markers change
   useEffect(() => {
@@ -67,7 +77,7 @@ const Map: React.FC = () => {
           { position: newMarkerPosition, text: newMarkerText },
         ]);
 
-        await addNewMarker(maps[0], markerData)
+        await handdleAddMarker(maps[0], markerData)
           .then(() => console.log('marker added!'))
           .catch((err) => console.log('error adding marker: ', err.message)).finally(() => {
             setNewMarkerPosition(null);

@@ -87,7 +87,7 @@ function Hamburger() {
                 >
                     {modalTitle === t('HAMBURGER_MENU.EDITORS') && (
                         <div>
-                            <EditersModal emails={['exmaple1@email.com', 'example2@email.com']} />
+                            <EditersModal />
                         </div>
                     )}
                     {modalTitle === t('HAMBURGER_MENU.LOGOUT') && (
