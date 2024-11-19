@@ -19,10 +19,13 @@ export function useMarkersSubscription() {
             }
         });
 
-        newSocket.emit('GET_MARKERS', mapName);
+
         newSocket.on('MARKERS_RESPONSE', (updatedMarkers) => {
             setMarkers(updatedMarkers);
         });
+
+        newSocket.emit('GET_MARKERS', mapName);
+
 
         newSocket.on('connect_error', (err) => {
             setError(new Error('Connection error: ' + err.message));

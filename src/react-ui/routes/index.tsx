@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-d
 import AccessView from '../views/Access/index.tsx';
 import MapView from '../views/Map/index.tsx';
 import { useAuth } from '../hooks/useAuth.tsx';
+import { SocketProvider } from '../hooks/socketContext.tsx';
 
 const RouterComponent = () => {
     const { accessToken } = useAuth();
@@ -25,7 +26,7 @@ const RouterComponent = () => {
                 {/* Ruta para el mapa si el usuario está logueado */}
                 <Route
                     path='/map'
-                    element={accessToken ? <MapView /> : <Navigate to='/access' />}
+                    element={accessToken ? <SocketProvider><MapView /></SocketProvider> : <Navigate to='/access' />}
                 />
 
                 {/* Ruta por defecto si la ruta no existe */}

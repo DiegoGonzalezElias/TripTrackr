@@ -22,4 +22,8 @@ export const mapService = (mapRepository: MapRepository): MapRepository => ({
         return mapRepository.getMarkers(token, mapName);
     },
 
+    getEditors: (token: string) => {
+        return mapRepository.getEditors(token);
+    },
+
 });

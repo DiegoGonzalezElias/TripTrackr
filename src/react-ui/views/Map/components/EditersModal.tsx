@@ -1,18 +1,45 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
+import { useMapManagement } from "@/react-ui/hooks/userMapManagement"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-
-interface EditersModalProps {
-    emails: string[]
-}
-
-function EditersModal({ emails }: EditersModalProps) {
+function EditersModal() {
 
     const [newEditor, setNewEditor] = useState("")
     const { t } = useTranslation();
+    const { editors, editorsError, editorsLoading } = useMapManagement();
+
+    if (editorsLoading) {
+        return (
+            <div>
+                <Card className="w-full shadow-none border-none">
+                    <CardContent className="px-0">
+                        <p>Loading...</p>
+                    </CardContent>
+                    <CardFooter className="flex p-0 py-4">
+                        <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        )
+    }
+
+    if (editorsError) {
+        return (
+            <div>
+                <Card className="w-full shadow-none border-none">
+                    <CardContent className="px-0">
+                        <p>Ups...</p>
+                    </CardContent>
+                    <CardFooter className="flex p-0 py-4">
+                        <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        )
+    }
 
     return (
         <div>
@@ -30,7 +57,7 @@ function EditersModal({ emails }: EditersModalProps) {
                             />
                         </div>
                         <ul>
-                            {emails.map((email, index) => {
+                            {editors!.map((email, index) => {
                                 return (
                                     <li key={index}>{email}</li>
                                 )

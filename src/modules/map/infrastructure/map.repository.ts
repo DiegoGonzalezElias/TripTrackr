@@ -7,7 +7,8 @@ export function createMapRepository(): MapRepository {
         deleteMap,
         addMarker,
         getMarkers,
-        selectMap
+        selectMap,
+        getEditors
     };
 }
 
@@ -132,8 +133,6 @@ async function selectMap(token: string, mapName: string) {
         body: JSON.stringify({ mapName }),
     });
 
-    console.log('selectMap response: ', response);
-
     if (!response.ok) {
         const error: ErrorWithResponse = {
             name: "Error selecting map",
@@ -145,7 +144,31 @@ async function selectMap(token: string, mapName: string) {
 
     const data = await response.json();
 
-    console.log('selectMap data: ', data)
-
     return data;
+}
+
+async function getEditors(token: string) {
+
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/map/editors`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+
+    if (!response.ok) {
+        const error: ErrorWithResponse = {
+            name: 'Error fetching editors',
+            message: 'Error fetching editors',
+            response: { status: 403 }
+        };
+        throw error;
+    }
+
+    const result = await response.json();
+
+    return result.data;
 }

@@ -13,4 +13,5 @@ export interface MapRepository {
     selectMap: (token: string, mapName: string) => Promise<Response>,
     addMarker: (token: string, mapName: string, data: IMarker) => Promise<Response>,
     getMarkers: (token: string, mapName: string) => Promise<IMarker[]>,
+    getEditors: (token: string) => Promise<string[]>,
 }
