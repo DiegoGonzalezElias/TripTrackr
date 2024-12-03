@@ -15,3 +15,12 @@ export interface MapRepository {
     getMarkers: (token: string, mapName: string) => Promise<IMarker[]>,
     getEditors: (token: string) => Promise<string[]>,
 }
+
+export interface MarkerData {
+    position: L.LatLng;
+    text: string;
+    description?: string,
+    category: string,
+    date?: string
+}
+
