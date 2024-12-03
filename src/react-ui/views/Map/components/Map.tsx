@@ -6,9 +6,10 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import MarkerFrom from './MarkerFrom';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
-import { IMarker } from '@/modules/map/domain/map.model';
+import { IMarker, MarkerData } from '@/modules/map/domain/map.model';
 import { useAuth } from '@/react-ui/hooks/useAuth';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
+import MarkerInfo from './MarkerInfo';
 
 const defaultIcon = L.icon({
   iconUrl,
@@ -20,10 +21,6 @@ const defaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = defaultIcon;
 
-interface MarkerData {
-  position: L.LatLng;
-  text: string;
-}
 
 const Map: React.FC = () => {
   const [newMarkerPosition, setNewMarkerPosition] = useState<L.LatLng | null>(null);
@@ -46,6 +43,9 @@ const Map: React.FC = () => {
       setLocalMarkers(markers.map(marker => ({
         position: L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude)),
         text: marker.name,
+        description: marker.description,
+        category: marker.category,
+        date: marker.date
       })));
     } else {
       setLocalMarkers([])
@@ -74,7 +74,7 @@ const Map: React.FC = () => {
       try {
         setLocalMarkers((prevMarkers) => [
           ...prevMarkers,
-          { position: newMarkerPosition, text: newMarkerText },
+          { position: newMarkerPosition, text: newMarkerText, category: markerData.category, description: markerData.description, date: markerData.date },
         ]);
 
         await handdleAddMarker(maps[0], markerData)
@@ -104,7 +104,9 @@ const Map: React.FC = () => {
 
         {localMarkers.map((marker, index) => (
           <Marker key={index} position={marker.position}>
-            <Popup>{marker.text}</Popup>
+            <Popup closeButton={false} maxWidth={285}>
+              <MarkerInfo marker={marker} />
+            </Popup>
           </Marker>
         ))}
 
