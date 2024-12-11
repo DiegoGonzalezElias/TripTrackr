@@ -16,7 +16,8 @@
         "DELETE": "Eliminar",
         "LOADING": "Cargando",
         "CREATE_MAP": "Crear mapa",
-        "CREATE": "Crear"
+        "CREATE": "Crear",
+        "DELETE_MARKER": "Eliminar marcador"
     },
     "SELECT_OPTIONS": {
         "RESTAURANT": "Restaurante",

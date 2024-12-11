@@ -3,8 +3,9 @@ import MapView from './index';
 import '@testing-library/jest-dom';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 import { AuthProvider } from '@/react-ui/hooks/useAuth';
+import { SocketProvider } from '@/react-ui/hooks/socketContext';
 
-// Mock del hook useMapManagement
+
 jest.mock('@/react-ui/hooks/userMapManagement', () => ({
     useMapManagement: jest.fn(),
 }));
@@ -35,37 +36,33 @@ describe('MapView Component', () => {
     });
 
     test('renders FirstMapModal when user has no map', () => {
-        // Simula el estado donde el usuario no tiene mapas
         mockUseMapManagement.mockReturnValue({ hasMap: false });
 
         render(
             <AuthProvider>
-                <MapView />
+                <SocketProvider>
+                    <MapView />
+                </SocketProvider>
             </AuthProvider>
         );
 
-        // Verificar que FirstMapModal se renderiza cuando no hay mapas
         expect(screen.getByText('CARD_TITLE.CREATE_FIRST_MAP')).toBeInTheDocument();
-
-        // Verificar que el componente Map siempre se renderiza
         expect(screen.getByTestId('map-component')).toBeInTheDocument();
     });
 
     test('renders Hamburger when user has a map', () => {
-        // Simula el estado donde el usuario tiene al menos un mapa
         mockUseMapManagement.mockReturnValue({ hasMap: true });
 
         render(
             <AuthProvider>
-                <MapView />
+                <SocketProvider>
+                    <MapView />
+                </SocketProvider>
             </AuthProvider>
         );
 
-        // Verificar que Hamburger se renderiza cuando hay un mapa
         const hamburgerButton = screen.getByTestId("hamburger-button");
         expect(hamburgerButton).toBeInTheDocument();
-
-        // Verificar que el componente Map siempre se renderiza
         expect(screen.getByTestId('map-component')).toBeInTheDocument();
     });
 
@@ -73,7 +70,9 @@ describe('MapView Component', () => {
         mockUseMapManagement.mockReturnValue({ hasMap: true });
         render(
             <AuthProvider>
-                <MapView />
+                <SocketProvider>
+                    <MapView />
+                </SocketProvider>
             </AuthProvider>
         );
         expect(screen.getByTestId('map-component')).toBeInTheDocument();
@@ -83,7 +82,9 @@ describe('MapView Component', () => {
         mockUseMapManagement.mockReturnValue({ hasMap: false });
         render(
             <AuthProvider>
-                <MapView />
+                <SocketProvider>
+                    <MapView />
+                </SocketProvider>
             </AuthProvider>
         );
         expect(screen.getByTestId('map-component')).toBeInTheDocument();

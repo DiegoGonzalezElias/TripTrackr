@@ -41,7 +41,7 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
                     </div>}
 
                     <CardFooter className="flex p-0 mt-10 py-4">
-                        <Button disabled={false} type='button' size={'lg'} className='w-full bg-destructive' onClick={() => { }}>Delete Marker</Button>
+                        <Button disabled={false} type='button' size={'lg'} className='w-full bg-destructive' onClick={() => { }}>{t('BUTTONS.DELETE_MARKER')}</Button>
                     </CardFooter>
                 </form>
             </CardContent>
