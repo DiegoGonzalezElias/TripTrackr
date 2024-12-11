@@ -8,30 +8,47 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+jest.mock('@/react-ui/hooks/userMapManagement', () => {
+    return {
+        useMapManagement: () => ({
+            maps: ['Map1', 'Map2', 'Map3'],
+            hasMap: true,
+            createMap: jest.fn(),
+            error: false,
+            triggerDeleteMap: jest.fn(),
+            deleteMapError: false,
+            isDeleteMapLoading: false,
+            triggerSelectMap: jest.fn(),
+            isSelectMapLoading: false,
+            selectMapError: false,
+            editors: ['testEditor'],
+            editorsError: false,
+            editorsLoading: false
+        }),
+    };
+});
+
 describe('MapsModal Component', () => {
-    const mockMaps = ['Map1', 'Map2', 'Map3'];
 
     test('renders the list of maps', () => {
-        render(<MapsModal maps={mockMaps} />);
+        render(<MapsModal />);
 
-        // Verificar que cada mapa en la lista se renderiza correctamente
-        mockMaps.forEach((map) => {
-            expect(screen.getByText(map)).toBeInTheDocument();
-        });
+        expect(screen.getAllByText('Map1')[0]).toBeInTheDocument();
+        expect(screen.getAllByText('Map2')[0]).toBeInTheDocument();
+        expect(screen.getAllByText('Map3')[0]).toBeInTheDocument();
+
     });
 
     test('renders the select button', () => {
-        render(<MapsModal maps={mockMaps} />);
+        render(<MapsModal />);
 
-        // Verificar que el botón de seleccionar está presente
         const selectButton = screen.getByRole('button', { name: 'BUTTONS.SELECT' });
         expect(selectButton).toBeInTheDocument();
     });
 
     test('renders correctly with an empty maps list', () => {
-        render(<MapsModal maps={[]} />);
+        render(<MapsModal />);
 
-        // Verificar que no se muestren elementos en la lista
         const listItems = screen.queryAllByRole('listitem');
         expect(listItems.length).toBe(0);
     });

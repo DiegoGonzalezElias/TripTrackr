@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import EditersModal from './EditersModal';
 import '@testing-library/jest-dom';
+import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -8,13 +9,28 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+jest.mock('@/react-ui/hooks/userMapManagement', () => ({
+    useMapManagement: jest.fn(),
+}));
+
 describe('EditersModal Component', () => {
     const mockEmails = ['editor1@example.com', 'editor2@example.com'];
 
-    test('renders label and input for adding a new editor', () => {
-        render(<EditersModal emails={mockEmails} />);
+    beforeEach(() => {
+        (useMapManagement as jest.Mock).mockReturnValue({
+            editors: mockEmails,
+            editorsError: false,
+            editorsLoading: false
+        });
+    });
 
-        // Verifica que el label y el input para agregar editor se muestren
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    test('renders label and input for adding a new editor', () => {
+        render(<EditersModal />);
+
         const addEditorLabel = screen.getByText('LABELS.ADD_EDITOR');
         expect(addEditorLabel).toBeInTheDocument();
 
@@ -24,19 +40,17 @@ describe('EditersModal Component', () => {
     });
 
     test('updates new editor state on input change', () => {
-        render(<EditersModal emails={mockEmails} />);
+        render(<EditersModal />);
 
         const addEditorInput = screen.getByPlaceholderText('PLACEHOLDERS.ADD_EMAIL');
 
-        // Simula la entrada de texto en el campo de nuevo editor
         fireEvent.change(addEditorInput, { target: { value: 'new_editor@example.com' } });
         expect(addEditorInput).toHaveValue('new_editor@example.com');
     });
 
     test('renders list of existing editor emails', () => {
-        render(<EditersModal emails={mockEmails} />);
+        render(<EditersModal />);
 
-        // Verifica que se muestren los correos electrónicos proporcionados
         mockEmails.forEach(email => {
             const emailElement = screen.getByText(email);
             expect(emailElement).toBeInTheDocument();
@@ -44,9 +58,8 @@ describe('EditersModal Component', () => {
     });
 
     test('renders apply button', () => {
-        render(<EditersModal emails={mockEmails} />);
+        render(<EditersModal />);
 
-        // Verifica que el botón de aplicar se muestre y tenga el estilo adecuado
         const applyButton = screen.getByRole('button', { name: 'BUTTONS.APPLY' });
         expect(applyButton).toBeInTheDocument();
         expect(applyButton).toHaveTextContent('BUTTONS.APPLY');

@@ -18,6 +18,26 @@ jest.mock('@/react-ui/hooks/useAuth', () => {
     };
 });
 
+jest.mock('@/react-ui/hooks/userMapManagement', () => {
+    return {
+        useMapManagement: () => ({
+            maps: ['test'],
+            hasMap: true,
+            createMap: jest.fn(),
+            error: false,
+            triggerDeleteMap: jest.fn(),
+            deleteMapError: false,
+            isDeleteMapLoading: false,
+            triggerSelectMap: jest.fn(),
+            isSelectMapLoading: false,
+            selectMapError: false,
+            editors: ['testEditor'],
+            editorsError: false,
+            editorsLoading: false
+        }),
+    };
+});
+
 describe('Hamburger Component', () => {
     it('should renders the hamburger button', () => {
         render(

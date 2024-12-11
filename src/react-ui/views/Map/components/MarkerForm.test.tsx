@@ -35,6 +35,9 @@ describe('MarkerFrom Component', () => {
                 setNewMarkerText={mockSetNewMarkerText}
                 addMarker={mockAddMarker}
                 closeForm={mockCloseForm}
+                isLoading={false}
+                lat='123'
+                lng='1234'
             />
         );
 
@@ -51,6 +54,9 @@ describe('MarkerFrom Component', () => {
                 setNewMarkerText={mockSetNewMarkerText}
                 addMarker={mockAddMarker}
                 closeForm={mockCloseForm}
+                isLoading={false}
+                lat='123'
+                lng='1234'
             />
         );
 
@@ -67,6 +73,9 @@ describe('MarkerFrom Component', () => {
                 setNewMarkerText={mockSetNewMarkerText}
                 addMarker={mockAddMarker}
                 closeForm={mockCloseForm}
+                isLoading={false}
+                lat='123'
+                lng='1234'
             />
         );
 
@@ -83,6 +92,9 @@ describe('MarkerFrom Component', () => {
                 setNewMarkerText={mockSetNewMarkerText}
                 addMarker={mockAddMarker}
                 closeForm={mockCloseForm}
+                isLoading={false}
+                lat='123'
+                lng='1234'
             />
         );
 
