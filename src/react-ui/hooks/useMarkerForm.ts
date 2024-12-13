@@ -8,7 +8,6 @@ export function useMarkerForm(newMarkerText: string, setNewMarkerText: (value: R
     const [category, setCategory] = useState(t('SELECT_OPTIONS.RESTAURANT'));
     const [date, setDate] = useState<Date>();
 
-    // Actualiza el texto del botón dependiendo del tamaño de la pantalla
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 600) {
