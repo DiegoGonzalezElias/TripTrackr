@@ -9,6 +9,7 @@ interface SocketContextProps {
     subscribe: (mapName: string, token: string) => void;
     unsubscribe: () => void;
     addMarker: (mapName: string, data: IMarker) => void;
+    deleteMarker: (mapName: string, data: IMarker) => void;
 }
 
 const SocketContext = createContext<SocketContextProps | undefined>(undefined);

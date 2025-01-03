@@ -79,12 +79,12 @@ function MarkerFrom({ newMarkerText, setNewMarkerText, addMarker, closeForm, lat
                                 onChange={(e) => setCategory(e.target.value)}
                                 className="border border-gray-300 rounded-md p-2 w-full mt-[6px]"
                             >
-                                <option>{t('SELECT_OPTIONS.RESTAURANT')}</option>
-                                <option>{t('SELECT_OPTIONS.HOSTING')}</option>
-                                <option>{t('SELECT_OPTIONS.ATTRACTION')}</option>
-                                <option>{t('SELECT_OPTIONS.SHOPPING')}</option>
-                                <option>{t('SELECT_OPTIONS.TRANSPORT')}</option>
-                                <option>{t('SELECT_OPTIONS.OTHER')}</option>
+                                <option value='restaurant'>{t('SELECT_OPTIONS.RESTAURANT')}</option>
+                                <option value='hosting'>{t('SELECT_OPTIONS.HOSTING')}</option>
+                                <option value='attraction'>{t('SELECT_OPTIONS.ATTRACTION')}</option>
+                                <option value='shopping'>{t('SELECT_OPTIONS.SHOPPING')}</option>
+                                <option value='transport'>{t('SELECT_OPTIONS.TRANSPORT')}</option>
+                                <option value='other'>{t('SELECT_OPTIONS.OTHER')}</option>
                             </select>
                         </div>
                         {/* Fecha */}
