@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { MarkerData } from '@/modules/map/domain/map.model';
+import { IMarker } from '@/modules/map/domain/map.model';
 import MarkerInfo from './MarkerInfo';
-import { LatLng, LatLngBounds } from 'leaflet';
 import '@testing-library/jest-dom';
+import { SocketProvider } from '@/react-ui/hooks/socketContext';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -10,45 +10,53 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
+const createMapMock = jest.fn().mockResolvedValue('map test');
+jest.mock('@/react-ui/hooks/userMapManagement', () => {
+    return {
+        useMapManagement: () => ({
+            maps: ['Map1', 'Map2', 'Map3'],
+            hasMap: true,
+            createMap: createMapMock,
+            error: false,
+            triggerDeleteMap: jest.fn(),
+            deleteMapError: false,
+            isDeleteMapLoading: false,
+            triggerSelectMap: jest.fn(),
+            isSelectMapLoading: false,
+            selectMapError: false,
+            editors: ['testEditor'],
+            editorsError: false,
+            editorsLoading: false
+        }),
+    };
+});
+
 describe('MarkerInfo Component', () => {
-    const mockMarker: MarkerData = {
-        text: 'Sample Marker',
+    const mockMarker: IMarker = {
+        name: 'Sample Marker',
         description: 'This is a sample marker',
-        category: 'Park',
+        category: 'restaurant',
         date: '2024-10-30',
-        position: {
-            equals: function (): boolean {
-                throw new Error('Function not implemented.');
-            },
-            distanceTo: function (): number {
-                throw new Error('Function not implemented.');
-            },
-            wrap: function (): LatLng {
-                throw new Error('Function not implemented.');
-            },
-            toBounds: function (): LatLngBounds {
-                throw new Error('Function not implemented.');
-            },
-            clone: function (): LatLng {
-                throw new Error('Function not implemented.');
-            },
-            lat: 0,
-            lng: 0
-        }
+        latitude: '0',
+        longitude: '0',
     };
 
     test('should render marker title and description', () => {
         render(
-            <MarkerInfo marker={mockMarker} />
+            <SocketProvider>
+                <MarkerInfo marker={mockMarker} />
+            </SocketProvider>
         );
 
-        expect(screen.getByText(mockMarker.text)).toBeInTheDocument();
+        expect(screen.getByText(mockMarker.name)).toBeInTheDocument();
         expect(screen.getByText(mockMarker.description!)).toBeInTheDocument();
     });
 
     test('should display marker category', () => {
         render(
-            <MarkerInfo marker={mockMarker} />
+            <SocketProvider>
+                <MarkerInfo marker={mockMarker} />
+            </SocketProvider>
         );
 
         expect(screen.getByText(/Category:/i)).toBeInTheDocument();
@@ -57,16 +65,26 @@ describe('MarkerInfo Component', () => {
 
     test('should render Calendar with the correct date if date exists', () => {
         render(
-            <MarkerInfo marker={mockMarker} />
+            <SocketProvider>
+                <MarkerInfo marker={mockMarker} />
+            </SocketProvider>
         );
 
-        const calendarElement = screen.getByText('December 2024');
+        const currentDate = new Date();
+        const currentMonth = currentDate.toLocaleString('en-US', { month: 'long' });
+        const capitalizedMonth = currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
+        const currentYear = currentDate.getFullYear();
+        console.log(`${capitalizedMonth} ${currentYear}`)
+
+        const calendarElement = screen.getByText(`${capitalizedMonth} ${currentYear}`);
         expect(calendarElement).toBeInTheDocument();
     });
 
     test('should render delete button', () => {
         render(
-            <MarkerInfo marker={mockMarker} />
+            <SocketProvider>
+                <MarkerInfo marker={mockMarker} />
+            </SocketProvider>
         );
 
         const deleteButton = screen.getByRole('button', { name: /BUTTONS.DELETE_MARKER/i });
@@ -77,7 +95,10 @@ describe('MarkerInfo Component', () => {
     test('should not render Calendar if date is not provided', () => {
         const markerWithoutDate = { ...mockMarker, date: undefined };
         render(
-            <MarkerInfo marker={markerWithoutDate} />
+            <SocketProvider>
+                <MarkerInfo marker={markerWithoutDate} />
+            </SocketProvider>
+
         );
 
         expect(screen.queryByLabelText(/Date/i)).not.toBeInTheDocument();
