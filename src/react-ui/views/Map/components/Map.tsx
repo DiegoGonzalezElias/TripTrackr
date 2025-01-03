@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -6,7 +6,7 @@ import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import MarkerFrom from './MarkerFrom';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
-import { IMarker, MarkerData } from '@/modules/map/domain/map.model';
+import { IMarker } from '@/modules/map/domain/map.model';
 import { useAuth } from '@/react-ui/hooks/useAuth';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import MarkerInfo from './MarkerInfo';
@@ -26,8 +26,7 @@ const Map: React.FC = () => {
   const [newMarkerPosition, setNewMarkerPosition] = useState<L.LatLng | null>(null);
   const [newMarkerText, setNewMarkerText] = useState('');
   const { addMarker: addNewMarker, markers } = useSocketContext();
-  const { maps } = useMapManagement();  // get markers from useMapManagement
-  const [localMarkers, setLocalMarkers] = useState<MarkerData[]>([]); // local state for map markers
+  const { maps } = useMapManagement();
   const [isMarkerLoading, setIsMarkerLoading] = useState(false);
   const { accessToken } = useAuth();
 
@@ -36,21 +35,6 @@ const Map: React.FC = () => {
       addNewMarker(mapName, data)
     }
   };
-
-  // Update local markers state when SWR markers change
-  useEffect(() => {
-    if (markers) {
-      setLocalMarkers(markers.map(marker => ({
-        position: L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude)),
-        text: marker.name,
-        description: marker.description,
-        category: marker.category,
-        date: marker.date
-      })));
-    } else {
-      setLocalMarkers([])
-    }
-  }, [markers]);
 
   const closeForm = () => {
     setNewMarkerPosition(null);
@@ -71,12 +55,8 @@ const Map: React.FC = () => {
   const addMarker = async (markerData: IMarker) => {
     if (newMarkerPosition && newMarkerText && maps) {
       setIsMarkerLoading(true);
-      try {
-        setLocalMarkers((prevMarkers) => [
-          ...prevMarkers,
-          { position: newMarkerPosition, text: newMarkerText, category: markerData.category, description: markerData.description, date: markerData.date },
-        ]);
 
+      try {
         await handdleAddMarker(maps[0], markerData)
           .then(() => console.log('marker added!'))
           .catch((err) => console.log('error adding marker: ', err.message)).finally(() => {
@@ -102,8 +82,8 @@ const Map: React.FC = () => {
       <MapContainer className='z-10 absolute' center={[36.502644, -6.272966]} zoom={13} style={{ height: '100vh', width: '100%' }}>
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {localMarkers.map((marker, index) => (
-          <Marker key={index} position={marker.position}>
+        {markers?.map((marker, index) => (
+          <Marker key={index} position={L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude))}>
             <Popup closeButton={false} maxWidth={285}>
               <MarkerInfo marker={marker} />
             </Popup>

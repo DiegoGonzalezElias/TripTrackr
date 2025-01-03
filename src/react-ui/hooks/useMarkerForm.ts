@@ -5,7 +5,7 @@ export function useMarkerForm(newMarkerText: string, setNewMarkerText: (value: R
     const { t } = useTranslation();
     const [description, setDescription] = useState('');
     const [buttonText, setButtonText] = useState(t('BUTTONS.ADD_MARKER'));
-    const [category, setCategory] = useState(t('SELECT_OPTIONS.RESTAURANT'));
+    const [category, setCategory] = useState('restaurant');
     const [date, setDate] = useState<Date>();
 
     useEffect(() => {

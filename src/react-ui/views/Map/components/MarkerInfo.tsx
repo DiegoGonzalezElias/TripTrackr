@@ -1,21 +1,32 @@
-import { MarkerData } from '@/modules/map/domain/map.model';
+import { IMarker } from '@/modules/map/domain/map.model';
 import { Button } from '@/react-ui/components/button'
 import { Calendar } from '@/react-ui/components/calendar'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/react-ui/components/card'
+import { useSocketContext } from '@/react-ui/hooks/socketContext';
+import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 import { useTranslation } from 'react-i18next';
 
 interface MarkerInfoProps {
-    marker: MarkerData
+    marker: IMarker
 }
 
 function MarkerInfo({ marker }: MarkerInfoProps) {
     const { t } = useTranslation();
+    const { deleteMarker } = useSocketContext();
+    const { maps } = useMapManagement();
+
+    const handleDeteleMarker = () => {
+        if (!maps) return
+        const mapName = maps[0]
+        const data: IMarker = marker
+        deleteMarker(mapName, data)
+    }
 
     return (
         <Card className="w-full max-w-[320px] border-none shadow-none">
             <CardHeader className='flex flex-row justify-between text-start'>
                 <div>
-                    <CardTitle className=' text-lg'>{marker.text}</CardTitle>
+                    <CardTitle className=' text-lg'>{marker.name}</CardTitle>
                     <CardDescription>{marker.description}</CardDescription>
                 </div>
             </CardHeader>
@@ -41,7 +52,7 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
                     </div>}
 
                     <CardFooter className="flex p-0 mt-10 py-4">
-                        <Button disabled={false} type='button' size={'lg'} className='w-full bg-destructive' onClick={() => { }}>{t('BUTTONS.DELETE_MARKER')}</Button>
+                        <Button disabled={false} type='button' size={'lg'} className='w-full bg-destructive' onClick={() => { handleDeteleMarker() }}>{t('BUTTONS.DELETE_MARKER')}</Button>
                     </CardFooter>
                 </form>
             </CardContent>
