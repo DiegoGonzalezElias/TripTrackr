@@ -25,7 +25,7 @@ describe('useMarkerForm Hook', () => {
 
         expect(result.current.description).toBe('');
         expect(result.current.buttonText).toBe('BUTTONS.ADD_MARKER');
-        expect(result.current.category).toBe('SELECT_OPTIONS.RESTAURANT');
+        expect(result.current.category).toBe('restaurant');
         expect(result.current.date).toBeUndefined();
         expect(result.current.newMarkerText).toBe('Initial Marker');
     });
