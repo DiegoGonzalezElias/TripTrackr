@@ -139,32 +139,6 @@ export function useMapManagement() {
         }
     );
 
-
-    const { data: editors, error: editorsError, isLoading: editorsLoading, mutate: mutateEditors } = useSWR(
-        accessToken ? ['editors', accessToken] : null,
-        async () => {
-            if (accessToken) {
-                const mapServiceImpl = mapService(createMapRepository());
-                const fetchedEditors = await mapServiceImpl.getEditors(accessToken);
-                return fetchedEditors;
-            }
-
-        },
-        {
-            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
-                if (error.response?.status === 403) {
-                    // Intentar renovar el token
-                    const authServiceImpl = authService(createAuthRepository());
-                    const newToken = await authServiceImpl.getToken();
-                    if (newToken.accessToken) {
-                        setAccessToken(newToken.accessToken);
-                        revalidate({ retryCount: retryCount + 1 });
-                    }
-                }
-            },
-        }
-    );
-
     return {
         maps,
         hasMap,
@@ -175,9 +149,6 @@ export function useMapManagement() {
         isDeleteMapLoading,
         triggerSelectMap,
         isSelectMapLoading,
-        selectMapError,
-        editors,
-        editorsError,
-        editorsLoading
+        selectMapError
     };
 }

@@ -30,7 +30,14 @@ jest.mock('@/react-ui/hooks/userMapManagement', () => {
             isDeleteMapLoading: false,
             triggerSelectMap: jest.fn(),
             isSelectMapLoading: false,
-            selectMapError: false,
+            selectMapError: false
+        }),
+    };
+});
+
+jest.mock('@/react-ui/hooks/useEditors', () => {
+    return {
+        useEditors: () => ({
             editors: ['testEditor'],
             editorsError: false,
             editorsLoading: false

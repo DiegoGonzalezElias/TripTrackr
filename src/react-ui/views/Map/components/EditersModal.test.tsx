@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import EditersModal from './EditersModal';
 import '@testing-library/jest-dom';
-import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
+import { useEditors } from '@/react-ui/hooks/useEditors';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -13,11 +13,15 @@ jest.mock('@/react-ui/hooks/userMapManagement', () => ({
     useMapManagement: jest.fn(),
 }));
 
+jest.mock('@/react-ui/hooks/useEditors', () => ({
+    useEditors: jest.fn(),
+}));
+
 describe('EditersModal Component', () => {
     const mockEmails = ['editor1@example.com', 'editor2@example.com'];
 
     beforeEach(() => {
-        (useMapManagement as jest.Mock).mockReturnValue({
+        (useEditors as jest.Mock).mockReturnValue({
             editors: mockEmails,
             editorsError: false,
             editorsLoading: false

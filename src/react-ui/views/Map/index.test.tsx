@@ -10,6 +10,10 @@ jest.mock('@/react-ui/hooks/userMapManagement', () => ({
     useMapManagement: jest.fn(),
 }));
 
+jest.mock('@/react-ui/hooks/useEditors', () => ({
+    useEditors: jest.fn(),
+}));
+
 jest.mock("./components/Map", () => ({
     __esModule: true,
     default: () => (

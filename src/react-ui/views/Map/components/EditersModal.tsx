@@ -1,7 +1,7 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
-import { useMapManagement } from "@/react-ui/hooks/userMapManagement"
+import { useEditors } from "@/react-ui/hooks/useEditors"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -9,7 +9,7 @@ function EditersModal() {
 
     const [newEditor, setNewEditor] = useState("")
     const { t } = useTranslation();
-    const { editors, editorsError, editorsLoading } = useMapManagement();
+    const { editors, editorsError, editorsLoading } = useEditors();
 
     if (editorsLoading) {
         return (
