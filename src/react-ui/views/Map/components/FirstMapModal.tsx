@@ -10,7 +10,8 @@ function FirstMapModal() {
     const { createMap } = useMapManagement();
     const { t } = useTranslation();
 
-    const handleCreateMap = async () => {
+    const handleCreateMap = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         if (!mapName) {
             setError("Please provide a map name");
             return;
@@ -40,7 +41,7 @@ function FirstMapModal() {
                         />
                     </div>
                 </div>
-                <Button type='button' size={'lg'} className='mt-4 w-full bg-chart-2' onClick={handleCreateMap}>{t('BUTTONS.CREATE_MAP')}</Button>
+                <Button type='submit' size={'lg'} className='mt-4 w-full bg-chart-2' onClick={handleCreateMap}>{t('BUTTONS.CREATE_MAP')}</Button>
                 {error && <p className="error">{error}</p>}
             </form>
         </Modal>
