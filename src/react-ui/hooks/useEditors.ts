@@ -19,7 +19,7 @@ export function useEditors() {
 
         },
         {
-            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
+            onErrorRetry: async (error, _key, _config, revalidate, { retryCount }) => {
                 if (error.response?.status === 403) {
                     // Intentar renovar el token
                     const authServiceImpl = authService(createAuthRepository());

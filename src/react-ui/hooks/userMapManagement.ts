@@ -26,7 +26,7 @@ export function useMapManagement() {
 
         },
         {
-            onErrorRetry: async (error, key, config, revalidate, { retryCount }) => {
+            onErrorRetry: async (error, _key, _config, revalidate, { retryCount }) => {
                 if (error.response?.status === 403) {
                     // Intentar renovar el token
                     const authServiceImpl = authService(createAuthRepository());
@@ -62,7 +62,7 @@ export function useMapManagement() {
 
     const { trigger: triggerDeleteMap, isMutating: isDeleteMapLoading, error: deleteMapError } = useSWRMutation(
         ['deleteMap', accessToken],
-        async (key, { arg: mapName }: { arg: string }) => {
+        async (_key, { arg: mapName }: { arg: string }) => {
             if (!accessToken) return;
 
             setDeleteMapName(mapName);
@@ -103,7 +103,7 @@ export function useMapManagement() {
 
     const { trigger: triggerSelectMap, isMutating: isSelectMapLoading, error: selectMapError } = useSWRMutation(
         ['selectMap', accessToken],
-        async (key, { arg: mapName }: { arg: string }) => {
+        async (_key, { arg: mapName }: { arg: string }) => {
             if (!accessToken) return;
 
             setSelectedMapName(mapName);
