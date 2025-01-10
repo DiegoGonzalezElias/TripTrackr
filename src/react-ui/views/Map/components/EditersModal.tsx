@@ -9,7 +9,12 @@ function EditersModal() {
 
     const [newEditor, setNewEditor] = useState("")
     const { t } = useTranslation();
-    const { editors, editorsError, editorsLoading } = useEditors();
+    const { editors, editorsError, editorsLoading, triggerModifyEditors, isModifyEditorsLoading, modifyEditorsError } = useEditors();
+
+
+    const handleAddEditor = (editorEmail: string) => {
+        triggerModifyEditors({ action: 'add', editorEmail });
+    }
 
     if (editorsLoading) {
         return (
@@ -55,6 +60,9 @@ function EditersModal() {
                                 placeholder={t('PLACEHOLDERS.ADD_EMAIL')}
                                 className="border border-gray-300 rounded-md p-2 w-full mt-2"
                             />
+                            <p>
+                                {isModifyEditorsLoading ? "Loading..." : modifyEditorsError ? "Error adding editor" : ""}
+                            </p>
                         </div>
                         <ul>
                             {editors!.map((email, index) => {
@@ -66,7 +74,7 @@ function EditersModal() {
                     </form>
                 </CardContent>
                 <CardFooter className="flex p-0 py-4">
-                    <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
+                    <Button disabled={isModifyEditorsLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => handleAddEditor(newEditor)}>{t('BUTTONS.ADD')}</Button>
                 </CardFooter>
             </Card>
         </div>

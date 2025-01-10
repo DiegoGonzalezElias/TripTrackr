@@ -26,4 +26,8 @@ export const mapService = (mapRepository: MapRepository): MapRepository => ({
         return mapRepository.getEditors(token);
     },
 
+    modifyEditors: (token: string, action: 'add' | 'remove', editorEmail: string) => {
+        return mapRepository.modifyEditors(token, action, editorEmail);
+    },
+
 });
