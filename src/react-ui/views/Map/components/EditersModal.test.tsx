@@ -61,11 +61,11 @@ describe('EditersModal Component', () => {
         });
     });
 
-    test('renders apply button', () => {
+    test('renders - add button', () => {
         render(<EditersModal />);
 
-        const applyButton = screen.getByRole('button', { name: 'BUTTONS.APPLY' });
+        const applyButton = screen.getByRole('button', { name: 'BUTTONS.ADD' });
         expect(applyButton).toBeInTheDocument();
-        expect(applyButton).toHaveTextContent('BUTTONS.APPLY');
+        expect(applyButton).toHaveTextContent('BUTTONS.ADD');
     });
 });
