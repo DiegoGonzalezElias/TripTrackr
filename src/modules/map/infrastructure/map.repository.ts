@@ -8,7 +8,8 @@ export function createMapRepository(): MapRepository {
         addMarker,
         getMarkers,
         selectMap,
-        getEditors
+        getEditors,
+        modifyEditors,
     };
 }
 
@@ -160,6 +161,34 @@ async function getEditors(token: string) {
 
 
     if (!response.ok) {
+        const error: ErrorWithResponse = {
+            name: 'Error fetching editors',
+            message: 'Error fetching editors',
+            response: { status: 403 }
+        };
+        throw error;
+    }
+
+    const result = await response.json();
+
+    return result.data;
+}
+
+async function modifyEditors(token: string, action: 'add' | 'remove', editorEmail: string,) {
+
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}api/map/editors`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ editorEmail, action }),
+    });
+
+
+    if (!response.ok) {
+        console.log('response: ', response)
         const error: ErrorWithResponse = {
             name: 'Error fetching editors',
             message: 'Error fetching editors',
