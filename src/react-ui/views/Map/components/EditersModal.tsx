@@ -27,9 +27,6 @@ function EditersModal() {
                     <CardContent className="px-0">
                         <p>Loading...</p>
                     </CardContent>
-                    <CardFooter className="flex p-0 py-4">
-                        <Button disabled={isModifyEditorsLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
-                    </CardFooter>
                 </Card>
             </div>
         )
@@ -42,9 +39,6 @@ function EditersModal() {
                     <CardContent className="px-0">
                         <p>Ups...</p>
                     </CardContent>
-                    <CardFooter className="flex p-0 py-4">
-                        <Button disabled={isModifyEditorsLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
-                    </CardFooter>
                 </Card>
             </div>
         )

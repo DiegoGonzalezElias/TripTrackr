@@ -98,4 +98,13 @@ describe('EditersModal Component', () => {
         const errorText = screen.getByText('Ups...');
         expect(errorText).toBeInTheDocument();
     })
+
+    test('press remove editor button', () => {
+        render(<EditersModal />);
+
+        const removeEditorButton = screen.getAllByText('BUTTONS.DELETE')[0];
+        fireEvent.click(removeEditorButton);
+        expect(removeEditorButton).toBeInTheDocument();
+        expect(removeEditorButton).toHaveTextContent('BUTTONS.DELETE');
+    });
 });
