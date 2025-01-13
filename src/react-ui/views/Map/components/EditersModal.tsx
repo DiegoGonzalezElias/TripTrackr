@@ -16,6 +16,10 @@ function EditersModal() {
         triggerModifyEditors({ action: 'add', editorEmail });
     }
 
+    const handleRemoveEditor = (editorEmail: string) => {
+        triggerModifyEditors({ action: 'remove', editorEmail });
+    }
+
     if (editorsLoading) {
         return (
             <div>
@@ -24,7 +28,7 @@ function EditersModal() {
                         <p>Loading...</p>
                     </CardContent>
                     <CardFooter className="flex p-0 py-4">
-                        <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
+                        <Button disabled={isModifyEditorsLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
                     </CardFooter>
                 </Card>
             </div>
@@ -39,7 +43,7 @@ function EditersModal() {
                         <p>Ups...</p>
                     </CardContent>
                     <CardFooter className="flex p-0 py-4">
-                        <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
+                        <Button disabled={isModifyEditorsLoading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.APPLY')}</Button>
                     </CardFooter>
                 </Card>
             </div>
@@ -66,9 +70,30 @@ function EditersModal() {
                         </div>
                         <ul>
                             {editors!.map((email, index) => {
+                                const isEllipsed = email.length > 18;
                                 return (
-                                    <li key={index}>{email}</li>
-                                )
+                                    <div key={index} className="flex justify-between m-4">
+                                        <li className="relative group">
+                                            <span>
+                                                {isEllipsed ? email.substring(0, 18) + '...' : email}
+                                            </span>
+
+                                            {isEllipsed && (
+                                                <div className="absolute bottom-full left-0 mb-1 hidden w-max bg-gray-800 text-white text-sm py-1 px-2 rounded shadow-lg group-hover:block z-10">
+                                                    {email}
+                                                </div>
+                                            )}
+                                        </li>
+
+                                        <Button
+                                            className="bg-destructive"
+                                            disabled={isModifyEditorsLoading}
+                                            onClick={() => handleRemoveEditor(email)}
+                                        >
+                                            {t('BUTTONS.DELETE')}
+                                        </Button>
+                                    </div>
+                                );
                             })}
                         </ul>
                     </form>
