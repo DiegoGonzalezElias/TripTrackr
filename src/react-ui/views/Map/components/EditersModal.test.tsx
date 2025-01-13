@@ -24,7 +24,8 @@ describe('EditersModal Component', () => {
         (useEditors as jest.Mock).mockReturnValue({
             editors: mockEmails,
             editorsError: false,
-            editorsLoading: false
+            editorsLoading: false,
+            triggerModifyEditors: jest.fn(),
         });
     });
 
@@ -61,11 +62,40 @@ describe('EditersModal Component', () => {
         });
     });
 
-    test('renders - add button', () => {
+    test('renders and press - add button', () => {
         render(<EditersModal />);
 
         const applyButton = screen.getByRole('button', { name: 'BUTTONS.ADD' });
+        fireEvent.click(applyButton);
         expect(applyButton).toBeInTheDocument();
         expect(applyButton).toHaveTextContent('BUTTONS.ADD');
     });
+
+    test('renders loading state', () => {
+        (useEditors as jest.Mock).mockReturnValue({
+            editors: [],
+            editorsError: false,
+            editorsLoading: true,
+            triggerModifyEditors: jest.fn(),
+        });
+
+        render(<EditersModal />);
+
+        const loadingText = screen.getByText('Loading...');
+        expect(loadingText).toBeInTheDocument();
+    })
+
+    test('renders error state', () => {
+        (useEditors as jest.Mock).mockReturnValue({
+            editors: [],
+            editorsError: true,
+            editorsLoading: false,
+            triggerModifyEditors: jest.fn(),
+        });
+
+        render(<EditersModal />);
+
+        const errorText = screen.getByText('Ups...');
+        expect(errorText).toBeInTheDocument();
+    })
 });
