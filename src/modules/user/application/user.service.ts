@@ -6,5 +6,8 @@ export const userService = (userRepository: UserRepository): UserRepository => (
         return userRepository.getUserMaps(token);
     },
 
+    deleteUserAcc: (token: string) => {
+        return userRepository.deleteUserAcc(token);
+    },
 });
 

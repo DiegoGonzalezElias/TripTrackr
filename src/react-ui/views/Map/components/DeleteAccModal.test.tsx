@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import DeleteAccModal from './DeleteAccModal';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '@/react-ui/hooks/useAuth';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -10,7 +11,11 @@ jest.mock('react-i18next', () => ({
 
 describe('DeleteAccModal Component', () => {
     test('renders delete account input and label', () => {
-        render(<DeleteAccModal />);
+        render(
+            <AuthProvider>
+                <DeleteAccModal />
+            </AuthProvider>
+        );
 
         // Verifica que el label y el input para la acción de eliminar cuenta se muestren
         const deleteAccLabel = screen.getByText('LABELS.DELETE_ACC');
@@ -22,7 +27,11 @@ describe('DeleteAccModal Component', () => {
     });
 
     test('updates delete word state on input change', () => {
-        render(<DeleteAccModal />);
+        render(
+            <AuthProvider>
+                <DeleteAccModal />
+            </AuthProvider>
+        );
 
         const deleteAccInput = screen.getByPlaceholderText('PLACEHOLDERS.DELETE_ACC');
 
@@ -32,7 +41,11 @@ describe('DeleteAccModal Component', () => {
     });
 
     test('renders delete button', () => {
-        render(<DeleteAccModal />);
+        render(
+            <AuthProvider>
+                <DeleteAccModal />
+            </AuthProvider>
+        );
 
         // Verifica que el botón de eliminar cuenta se muestre
         const deleteButton = screen.getByRole('button', { name: 'BUTTONS.DELETE' });

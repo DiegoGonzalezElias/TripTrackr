@@ -1,6 +1,8 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
+import { useDeleteAcc } from "@/react-ui/hooks/useDeleteAcc";
+import { useLogout } from "@/react-ui/hooks/useLogout";
 import { useState } from "react"
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +11,12 @@ function DeleteAccModal() {
 
     const [deleteWord, setDeleteWord] = useState("")
     const { t } = useTranslation();
+    const { deleteAcc } = useDeleteAcc();
+    const { logout } = useLogout()
+
+    const handleDelete = () => {
+        deleteAcc().then(() => logout())
+    }
 
     return (
         <div>
@@ -28,7 +36,7 @@ function DeleteAccModal() {
                     </form>
                 </CardContent>
                 <CardFooter className="flex p-0 py-4">
-                    <Button type='button' size={'lg'} className='w-full bg-destructive' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.DELETE')}</Button>
+                    <Button disabled={deleteWord !== 'Delete'} type='button' size={'lg'} className='w-full bg-destructive' onClick={() => handleDelete()}>{t('BUTTONS.DELETE')}</Button>
                 </CardFooter>
             </Card>
         </div>
