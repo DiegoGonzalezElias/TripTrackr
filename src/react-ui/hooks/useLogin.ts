@@ -1,27 +1,26 @@
 import { authService } from '@/modules/auth/application/auth.service';
 import { useAuth } from './useAuth';
 import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import validator from 'validator';
 
 export const useLogin = () => {
     const { setAccessToken, setUser } = useAuth();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const usernameRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-
     const login = async (email: string, password: string) => {
         try {
-            const authServiceImpl = authService(createAuthRepository())
+            const authServiceImpl = authService(createAuthRepository());
             const data = await authServiceImpl.loginUser({ email, password });
             setAccessToken(data.accessToken);
             setUser(data.user);
 
             return data;
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error("Login failed:", error);
             throw error;
         }
     };
@@ -31,22 +30,29 @@ export const useLogin = () => {
         setLoading(true);
         setError(null);
 
+        const username = usernameRef.current?.value || "";
+        const password = passwordRef.current?.value || "";
+
         if (!validator.isEmail(username)) {
-            setError('It is not a valid email')
+            setError("It is not a valid email");
             setLoading(false);
-            return
+            return;
         }
 
         try {
             await login(username, password);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-            setError('Invalid email or password');
+        } catch {
+            setError("Invalid email or password");
         } finally {
             setLoading(false);
         }
     };
 
-
-    return { handleLogin, username, setUsername, password, setPassword, loading, error };
+    return {
+        handleLogin,
+        usernameRef,
+        passwordRef,
+        loading,
+        error,
+    };
 };
