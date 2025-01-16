@@ -10,7 +10,7 @@ interface LoginFormProps {
 function LoginForm({ switchForm }: LoginFormProps) {
 
     const { t } = useTranslation();
-    const { handleLogin, username, setUsername, password, setPassword, loading, error } = useLogin();
+    const { handleLogin, usernameRef, passwordRef, loading, error } = useLogin();
 
     return (
         <div className="w-full mx-4 flex justify-center items-center max-w-[450px]">
@@ -28,8 +28,7 @@ function LoginForm({ switchForm }: LoginFormProps) {
                                 <label className=" text-sm">{t('LABELS.EMAIL')}</label>
                                 <input
                                     type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    ref={usernameRef}
                                     placeholder={t('PLACEHOLDERS.ADD_EMAIL')}
                                     className="border rounded-xl border-gray-800 p-2 w-full mt-2"
                                 />
@@ -40,8 +39,7 @@ function LoginForm({ switchForm }: LoginFormProps) {
                             <label className="text-sm">{t('LABELS.PASSWORD')}</label>
                             <input
                                 type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                ref={passwordRef}
                                 placeholder={t('PLACEHOLDERS.ADD_PASSWORD')}
                                 className="border rounded-xl border-gray-800 p-2 w-full mt-2"
                             />

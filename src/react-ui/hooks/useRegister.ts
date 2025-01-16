@@ -1,14 +1,14 @@
 import { authService } from '@/modules/auth/application/auth.service';
 import { useAuth } from './useAuth';
 import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import validator from 'validator';
 
 export const useRegister = () => {
     const { setAccessToken, setUser } = useAuth();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const usernameRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const confirmPasswordRef = useRef<HTMLInputElement | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -31,6 +31,10 @@ export const useRegister = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+
+        const username = usernameRef.current?.value || "";
+        const password = passwordRef.current?.value || "";
+        const confirmPassword = confirmPasswordRef.current?.value || "";
 
         if (!validator.isEmail(username)) {
             setError('It is not a valid email')
@@ -55,5 +59,5 @@ export const useRegister = () => {
     };
 
 
-    return { handleRegister, username, setUsername, password, setPassword, confirmPassword, setConfirmPassword, loading, error };
+    return { handleRegister, usernameRef, passwordRef, confirmPasswordRef, loading, error };
 };

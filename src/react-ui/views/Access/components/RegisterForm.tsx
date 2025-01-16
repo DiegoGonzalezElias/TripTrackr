@@ -10,12 +10,9 @@ interface RegisterFormProps {
 function RegisterForm({ switchForm }: RegisterFormProps) {
     const {
         handleRegister,
-        username,
-        setUsername,
-        password,
-        setPassword,
-        confirmPassword,
-        setConfirmPassword,
+        usernameRef,
+        passwordRef,
+        confirmPasswordRef,
         loading,
         error
     } = useRegister();
@@ -36,8 +33,7 @@ function RegisterForm({ switchForm }: RegisterFormProps) {
                                 <label className=" text-sm">{t('LABELS.EMAIL')}</label>
                                 <input
                                     type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    ref={usernameRef}
                                     placeholder={t('PLACEHOLDERS.ADD_EMAIL')}
                                     className="border rounded-xl border-gray-800 p-2 w-full mt-2"
                                 />
@@ -48,8 +44,7 @@ function RegisterForm({ switchForm }: RegisterFormProps) {
                             <label className="text-sm">{t('LABELS.PASSWORD')}</label>
                             <input
                                 type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                ref={passwordRef}
                                 placeholder={t('PLACEHOLDERS.ADD_PASSWORD')}
                                 className="border rounded-xl border-gray-800 p-2 w-full mt-2"
                             />
@@ -59,8 +54,7 @@ function RegisterForm({ switchForm }: RegisterFormProps) {
                             <label className="text-sm">{t('LABELS.REPIT_PASSWORD')}</label>
                             <input
                                 type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                ref={confirmPasswordRef}
                                 placeholder={t('PLACEHOLDERS.REPIT_PASSWORD')}
                                 className="border rounded-xl border-gray-800 p-2 w-full mt-2"
                             />
