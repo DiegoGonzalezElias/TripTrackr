@@ -33,9 +33,9 @@ describe('useRegister Hook', () => {
     it('should initialize state correctly', () => {
         const { result } = renderHook(() => useRegister());
 
-        expect(result.current.username).toBe('');
-        expect(result.current.password).toBe('');
-        expect(result.current.confirmPassword).toBe('');
+        expect(result.current.usernameRef.current).toBeNull();
+        expect(result.current.passwordRef.current).toBeNull();
+        expect(result.current.confirmPasswordRef.current).toBeNull();
         expect(result.current.loading).toBe(false);
         expect(result.current.error).toBeNull();
     });
@@ -43,31 +43,40 @@ describe('useRegister Hook', () => {
     it('should update username state when setUsername is called', () => {
         const { result } = renderHook(() => useRegister());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.usernameRef.current.value = 'test@example.com'
         });
 
-        expect(result.current.username).toBe('test@example.com');
+        expect(result.current.usernameRef.current?.value).toBe('test@example.com');
     });
 
     it('should update password state when setPassword is called', () => {
         const { result } = renderHook(() => useRegister());
 
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setPassword('password123');
+            result.current.passwordRef.current = mockPasswordInput;
+            result.current.passwordRef.current.value = 'password123'
         });
 
-        expect(result.current.password).toBe('password123');
+        expect(result.current.passwordRef.current?.value).toBe('password123');
     });
 
     it('should update confirmPassword state when setConfirmPassword is called', () => {
         const { result } = renderHook(() => useRegister());
 
+        const mockConfirmPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setConfirmPassword('password123');
+            result.current.confirmPasswordRef.current = mockConfirmPasswordInput;
+            result.current.confirmPasswordRef.current.value = 'password123'
         });
 
-        expect(result.current.confirmPassword).toBe('password123');
+        expect(result.current.confirmPasswordRef.current?.value).toBe('password123');
     });
 
     it('should show error if email is invalid', async () => {
@@ -88,9 +97,16 @@ describe('useRegister Hook', () => {
 
         const { result } = renderHook(() => useRegister());
 
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+        const mockConfirmPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setPassword('password123');
-            result.current.setConfirmPassword('password456');
+
+            result.current.passwordRef.current = mockPasswordInput;
+            result.current.confirmPasswordRef.current = mockConfirmPasswordInput;
+
+            result.current.passwordRef.current.value = 'password123'
+            result.current.confirmPasswordRef.current.value = 'password456'
         });
 
         await act(async () => {
@@ -110,10 +126,18 @@ describe('useRegister Hook', () => {
 
         const { result } = renderHook(() => useRegister());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+        const mockConfirmPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
-            result.current.setPassword('password123');
-            result.current.setConfirmPassword('password123');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.passwordRef.current = mockPasswordInput;
+            result.current.confirmPasswordRef.current = mockConfirmPasswordInput;
+
+            result.current.usernameRef.current.value = 'test@example.com'
+            result.current.passwordRef.current.value = 'password123'
+            result.current.confirmPasswordRef.current.value = 'password123'
         });
 
         await act(async () => {
@@ -137,10 +161,18 @@ describe('useRegister Hook', () => {
 
         const { result } = renderHook(() => useRegister());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+        const mockConfirmPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
-            result.current.setPassword('password123');
-            result.current.setConfirmPassword('password123');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.passwordRef.current = mockPasswordInput;
+            result.current.confirmPasswordRef.current = mockConfirmPasswordInput;
+
+            result.current.usernameRef.current.value = 'test@example.com'
+            result.current.passwordRef.current.value = 'password123'
+            result.current.confirmPasswordRef.current.value = 'password123'
         });
 
         await act(async () => {

@@ -37,8 +37,8 @@ describe('useLogin', () => {
     it('should initialize with default state', () => {
         const { result } = renderHook(() => useLogin());
 
-        expect(result.current.username).toBe('');
-        expect(result.current.password).toBe('');
+        expect(result.current.usernameRef.current).toBeNull();
+        expect(result.current.passwordRef.current).toBeNull();
         expect(result.current.loading).toBe(false);
         expect(result.current.error).toBe(null);
     });
@@ -46,19 +46,32 @@ describe('useLogin', () => {
     it('should set username and password', () => {
         const { result } = renderHook(() => useLogin());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
-            result.current.setPassword('password123');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.passwordRef.current = mockPasswordInput;
+
+            result.current.usernameRef.current.value = 'test@example.com';
+            result.current.passwordRef.current.value = 'password123';
         });
 
-        expect(result.current.username).toBe('test@example.com');
-        expect(result.current.password).toBe('password123');
+        expect(result.current.usernameRef.current?.value).toBe('test@example.com');
+        expect(result.current.passwordRef.current?.value).toBe('password123');
     });
 
     it('should show error if email is invalid', async () => {
         (validator.isEmail as jest.Mock).mockReturnValue(false);
 
         const { result } = renderHook(() => useLogin());
+
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+
+        act(() => {
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.usernameRef.current.value = 'invalid-email';
+        });
 
         await act(async () => {
             await result.current.handleLogin({ preventDefault: jest.fn() } as never);
@@ -78,9 +91,15 @@ describe('useLogin', () => {
 
         const { result } = renderHook(() => useLogin());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
-            result.current.setPassword('password123');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.passwordRef.current = mockPasswordInput;
+
+            result.current.usernameRef.current.value = 'test@example.com';
+            result.current.passwordRef.current.value = 'password123';
         });
 
         await act(async () => {
@@ -99,9 +118,15 @@ describe('useLogin', () => {
 
         const { result } = renderHook(() => useLogin());
 
+        const mockUsernameInput = { value: '' } as HTMLInputElement;
+        const mockPasswordInput = { value: '' } as HTMLInputElement;
+
         act(() => {
-            result.current.setUsername('test@example.com');
-            result.current.setPassword('password123');
+            result.current.usernameRef.current = mockUsernameInput;
+            result.current.passwordRef.current = mockPasswordInput;
+
+            result.current.usernameRef.current.value = 'test@example.com';
+            result.current.passwordRef.current.value = 'password123';
         });
 
         await act(async () => {
