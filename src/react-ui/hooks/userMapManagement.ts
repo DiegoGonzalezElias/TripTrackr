@@ -8,6 +8,7 @@ import { mapService } from '@/modules/map/application/map.service';
 import { createMapRepository } from '@/modules/map/infrastructure/map.repository';
 import { authService } from '@/modules/auth/application/auth.service';
 import { createAuthRepository } from '@/modules/auth/infrastructure/auth.repository';
+import { validateAccessToken } from '@/lib/utils';
 
 
 export function useMapManagement() {
@@ -16,28 +17,16 @@ export function useMapManagement() {
 
     // Fetching user maps using SWR
     const { data: maps, error, mutate: mutateMaps } = useSWR(
-        accessToken ? ['userMaps', accessToken] : null,
+        accessToken ? ['userMaps'] : null,
         async () => {
             if (accessToken) {
+                const validatedToken = await validateAccessToken(accessToken, setAccessToken);
                 const userServiceImpl = userService(createUserRepository());
-                const fetchedMaps = await userServiceImpl.getUserMaps(accessToken);
+                const fetchedMaps = await userServiceImpl.getUserMaps(validatedToken ? validatedToken : accessToken);
                 return fetchedMaps;
             }
 
         },
-        {
-            onErrorRetry: async (error, _key, _config, revalidate, { retryCount }) => {
-                if (error.response?.status === 403) {
-                    // Intentar renovar el token
-                    const authServiceImpl = authService(createAuthRepository());
-                    const newToken = await authServiceImpl.getToken();
-                    if (newToken.accessToken) {
-                        setAccessToken(newToken.accessToken);
-                        revalidate({ retryCount: retryCount + 1 });
-                    }
-                }
-            },
-        }
     );
 
     useEffect(() => {

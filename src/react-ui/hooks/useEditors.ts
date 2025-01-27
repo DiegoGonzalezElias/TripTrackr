@@ -6,32 +6,20 @@ import useSWR from "swr";
 import { useAuth } from "./useAuth";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
+import { validateAccessToken } from "@/lib/utils";
 
 export function useEditors() {
     const { accessToken, setAccessToken } = useAuth();
 
     const { data: editors, error: editorsError, isLoading: editorsLoading, mutate: mutateEditors } = useSWR(
-        accessToken ? ['editors', accessToken] : null,
+        accessToken ? ['editors'] : null,
         async () => {
             if (accessToken) {
+                const validatedToken = await validateAccessToken(accessToken, setAccessToken);
                 const mapServiceImpl = mapService(createMapRepository());
-                const fetchedEditors = await mapServiceImpl.getEditors(accessToken);
+                const fetchedEditors = await mapServiceImpl.getEditors(validatedToken ? validatedToken : accessToken);
                 return fetchedEditors;
             }
-
-        },
-        {
-            onErrorRetry: async (error, _key, _config, revalidate, { retryCount }) => {
-                if (error.response?.status === 403) {
-                    // Intentar renovar el token
-                    const authServiceImpl = authService(createAuthRepository());
-                    const newToken = await authServiceImpl.getToken();
-                    if (newToken.accessToken) {
-                        setAccessToken(newToken.accessToken);
-                        revalidate({ retryCount: retryCount + 1 });
-                    }
-                }
-            },
         }
     );
 
