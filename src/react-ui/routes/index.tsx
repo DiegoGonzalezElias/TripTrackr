@@ -4,35 +4,40 @@ import AccessView from '../views/Access/index.tsx';
 import MapView from '../views/Map/index.tsx';
 import { useAuth } from '../hooks/useAuth.tsx';
 import { SocketProvider } from '../hooks/socketContext.tsx';
+import { SWRConfig } from 'swr';
+import { createSWRConfig } from '@/lib/swrConfig.ts';
 
 const RouterComponent = () => {
-    const { accessToken } = useAuth();
+    const { accessToken, setAccessToken } = useAuth();
 
     return (
-        <Router basename={import.meta.env.VITE_APP_BASE_URL as string}>
-            <Routes>
-                {/* Ruta raíz: Redirige según el estado del usuario */}
-                <Route
-                    path='/'
-                    element={<Navigate to={accessToken ? '/map' : '/access'} />}
-                />
+        <SWRConfig value={{ onErrorRetry: createSWRConfig(setAccessToken) }}>
+            <Router basename={import.meta.env.VITE_APP_BASE_URL as string}>
+                <Routes>
+                    {/* Ruta raíz: Redirige según el estado del usuario */}
+                    <Route
+                        path='/'
+                        element={<Navigate to={accessToken ? '/map' : '/access'} />}
+                    />
 
-                {/* Ruta de acceso */}
-                <Route
-                    path='/access'
-                    element={!accessToken ? <AccessView /> : <Navigate to='/map' />}
-                />
+                    {/* Ruta de acceso */}
+                    <Route
+                        path='/access'
+                        element={!accessToken ? <AccessView /> : <Navigate to='/map' />}
+                    />
 
-                {/* Ruta para el mapa si el usuario está logueado */}
-                <Route
-                    path='/map'
-                    element={accessToken ? <SocketProvider><MapView /></SocketProvider> : <Navigate to='/access' />}
-                />
+                    {/* Ruta para el mapa si el usuario está logueado */}
+                    <Route
+                        path='/map'
+                        element={accessToken ? <SocketProvider><MapView /></SocketProvider> : <Navigate to='/access' />}
+                    />
 
-                {/* Ruta por defecto si la ruta no existe */}
-                <Route path='*' element={<Navigate to={accessToken ? '/map' : '/access'} />} />
-            </Routes>
-        </Router>
+                    {/* Ruta por defecto si la ruta no existe */}
+                    <Route path='*' element={<Navigate to={accessToken ? '/map' : '/access'} />} />
+                </Routes>
+            </Router>
+        </SWRConfig>
+
     );
 };
 
