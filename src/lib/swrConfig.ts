@@ -12,9 +12,9 @@ interface SWRError extends Error {
 export const createSWRConfig = (setAccessToken: (token: string | null) => void) =>
     async (
         error: Error,
-        key: string,
+        _key: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        config: Readonly<PublicConfiguration<any, any, any>>,
+        _config: Readonly<PublicConfiguration<any, any, any>>,
         revalidate: Revalidator,
         { retryCount }: { retryCount: number }
     ): Promise<void> => {
