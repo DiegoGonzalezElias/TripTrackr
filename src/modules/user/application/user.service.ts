@@ -9,5 +9,9 @@ export const userService = (userRepository: UserRepository): UserRepository => (
     deleteUserAcc: (token: string) => {
         return userRepository.deleteUserAcc(token);
     },
+
+    changePassword: (token: string, password: string, newPassword: string) => {
+        return userRepository.changePassword(token, password, newPassword);
+    },
 });
 
