@@ -1,14 +1,13 @@
 
 import { Button } from "@/react-ui/components/button"
 import { Card, CardContent, CardFooter } from "@/react-ui/components/card"
-import { useState } from "react"
+import useChangePass from "@/react-ui/hooks/useChangePass";
 import { useTranslation } from "react-i18next"
 
 
 function AccountModal() {
 
-    const [oldPass, setOldPass] = useState("")
-    const [newPass, setNewPass] = useState("")
+    const { changePassword, newPass, setNewPass, oldPass, setOldPass, error, loading } = useChangePass();
     const { t } = useTranslation();
 
     return (
@@ -36,10 +35,11 @@ function AccountModal() {
                                 className="border border-gray-300 rounded-md p-2 w-full mt-2"
                             />
                         </div>
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
                     </form>
                 </CardContent>
                 <CardFooter className="flex p-0 py-4">
-                    <Button type='button' size={'lg'} className='w-full bg-chart-2' onClick={() => {/*TODO: add logic */ }}>{t('BUTTONS.CHANGE_PASSWORD')}</Button>
+                    <Button disabled={loading} type='button' size={'lg'} className='w-full bg-chart-2' onClick={changePassword}>{t('BUTTONS.CHANGE_PASSWORD')}</Button>
                 </CardFooter>
             </Card>
         </div>

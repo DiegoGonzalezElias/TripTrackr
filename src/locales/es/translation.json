@@ -81,5 +81,8 @@
         "ACCOUNT": "Cuenta",
         "MAPS": "Mapas",
         "DELETE_ACCOUNT": "Eliminar cuenta"
+    },
+    "ERRORS": {
+        "CHANGE_PASSWORD": "Error al cambiar la contraseña"
     }
 }

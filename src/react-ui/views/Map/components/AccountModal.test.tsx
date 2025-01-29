@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, } from '@testing-library/react';
 import AccountModal from './AccountModal';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '@/react-ui/hooks/useAuth';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -11,7 +12,11 @@ jest.mock('react-i18next', () => ({
 
 describe('AccountModal Component', () => {
     test('renders old password input and label', () => {
-        render(<AccountModal />);
+        render(
+            <AuthProvider>
+                <AccountModal />
+            </AuthProvider>
+        );
 
         // Verifica que el label y el input para la contraseña anterior se muestren
         const oldPassLabel = screen.getByText('LABELS.OLD_PASS');
@@ -23,7 +28,11 @@ describe('AccountModal Component', () => {
     });
 
     test('renders new password input and label', () => {
-        render(<AccountModal />);
+        render(
+            <AuthProvider>
+                <AccountModal />
+            </AuthProvider>
+        );
 
         // Verifica que el label y el input para la nueva contraseña se muestren
         const newPassLabel = screen.getByText('LABELS.NEW_PASS');
@@ -35,7 +44,11 @@ describe('AccountModal Component', () => {
     });
 
     test('updates old password state on input change', () => {
-        render(<AccountModal />);
+        render(
+            <AuthProvider>
+                <AccountModal />
+            </AuthProvider>
+        );
 
         const oldPassInput = screen.getByPlaceholderText('PLACEHOLDERS.OLD_PASS');
 
@@ -45,7 +58,11 @@ describe('AccountModal Component', () => {
     });
 
     test('updates new password state on input change', () => {
-        render(<AccountModal />);
+        render(
+            <AuthProvider>
+                <AccountModal />
+            </AuthProvider>
+        );
 
         const newPassInput = screen.getByPlaceholderText('PLACEHOLDERS.NEW_PASS');
 
@@ -55,7 +72,11 @@ describe('AccountModal Component', () => {
     });
 
     test('renders change password button', () => {
-        render(<AccountModal />);
+        render(
+            <AuthProvider>
+                <AccountModal />
+            </AuthProvider>
+        );
 
         // Verifica que el botón de cambiar contraseña se muestre
         const changePasswordButton = screen.getByRole('button', { name: 'BUTTONS.CHANGE_PASSWORD' });
