@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/react-ui/components/card";
 import { useMapManagement } from "@/react-ui/hooks/userMapManagement";
 import { useTranslation } from "react-i18next";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/react-ui/components/select";
+import { Checkbox } from "@/react-ui/components/checkbox";
+import { useMapSettings } from "@/react-ui/hooks/useMapSettings";
 
 function MapsModal() {
     const { t } = useTranslation();
@@ -14,6 +16,7 @@ function MapsModal() {
     const [isNewMapCreated, setIsNewMapCreated] = useState<boolean>(false);
     const [isMapCreating, setIsMapCreating] = useState<boolean>(false);
     const [errorCreateMap, setErrorCreateMap] = useState<boolean>(false);
+    const { isNumericalMarkers, toggleNumericalMarkers } = useMapSettings();
 
     useEffect(() => {
         // Selecciona el primer mapa por defecto
@@ -90,6 +93,11 @@ function MapsModal() {
                                     </Button>
                                 </form>
                                 {selectMapError && <p className=" text-red-500 text-sm">Error selecting map</p>}
+                                <div className="flex justify-start items-center gap-3">
+                                    <Checkbox checked={isNumericalMarkers} onClick={toggleNumericalMarkers} />
+                                    <label className=" text-gray-600 text-sm">{t('LABELS.TOGGLE_NUMERIC_MARKERS')}</label>
+                                </div>
+
                             </div>
                             <div>
                                 <label className=" text-gray-600 text-sm">{t('LABELS.CREATE_MAP')}</label>

@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Hamburger from './Hamburger';
 import '@testing-library/jest-dom';
 import { AuthProvider } from '@/react-ui/hooks/useAuth';
+import { MapSettingsProvider } from '@/react-ui/hooks/useMapSettings';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -48,10 +49,11 @@ jest.mock('@/react-ui/hooks/useEditors', () => {
 describe('Hamburger Component', () => {
     it('should renders the hamburger button', () => {
         render(
-            <AuthProvider>
-                <Hamburger />
-            </AuthProvider>
-
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
         );
 
         const hamburgerButton = screen.getByRole('button');
@@ -59,9 +61,13 @@ describe('Hamburger Component', () => {
     });
 
     it('should displays menu content on button click', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const menuContent = screen.queryByText('HAMBURGER_MENU.EDITORS');
         expect(menuContent).not.toBeInTheDocument();
@@ -76,9 +82,13 @@ describe('Hamburger Component', () => {
     });
 
     it('should appear maps button and click it', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const hamburgerButton = screen.getByTestId('hamburger-button');
         fireEvent.click(hamburgerButton);
@@ -90,9 +100,13 @@ describe('Hamburger Component', () => {
     });
 
     it('should appear account button and click it', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const hamburgerButton = screen.getByTestId('hamburger-button');
         fireEvent.click(hamburgerButton);
@@ -118,9 +132,13 @@ describe('Hamburger Component', () => {
     });
 
     it('should appear editors button and click it', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const hamburgerButton = screen.getByTestId('hamburger-button');
         fireEvent.click(hamburgerButton);
@@ -132,9 +150,13 @@ describe('Hamburger Component', () => {
     });
 
     test('displays delete account option', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const hamburgerButton = screen.getByRole('button');
         fireEvent.click(hamburgerButton);
@@ -143,9 +165,13 @@ describe('Hamburger Component', () => {
     });
 
     it('should appear delete account button and click it', () => {
-        render(<AuthProvider>
-            <Hamburger />
-        </AuthProvider>);
+        render(
+            <MapSettingsProvider>
+                <AuthProvider>
+                    <Hamburger />
+                </AuthProvider>
+            </MapSettingsProvider>
+        );
 
         const hamburgerButton = screen.getByTestId('hamburger-button');
         fireEvent.click(hamburgerButton);

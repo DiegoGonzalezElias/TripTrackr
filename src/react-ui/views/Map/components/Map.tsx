@@ -10,6 +10,7 @@ import { IMarker } from '@/modules/map/domain/map.model';
 import { useAuth } from '@/react-ui/hooks/useAuth';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import MarkerInfo from './MarkerInfo';
+import { useMapSettings } from '@/react-ui/hooks/useMapSettings';
 
 const defaultIcon = L.icon({
   iconUrl,
@@ -22,6 +23,45 @@ const defaultIcon = L.icon({
 L.Marker.prototype.options.icon = defaultIcon;
 
 
+const createNumberedIcon = (number: number) => {
+  return L.divIcon({
+    className: 'custom-div-icon',
+    html: `
+      <div style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position:relative;
+        margin-top: -50px;
+      ">
+        <div style="
+        background-color: white;
+        border: 2px solid #3388ff;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        color: #3388ff;
+        position: absolute
+        top: 30px;
+        ">
+          ${number}
+        </div>
+        <img src=${iconUrl}>
+      </div>
+      
+    `,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
+  });
+};
+
+
 const Map: React.FC = () => {
   const [newMarkerPosition, setNewMarkerPosition] = useState<L.LatLng | null>(null);
   const [newMarkerText, setNewMarkerText] = useState('');
@@ -29,6 +69,7 @@ const Map: React.FC = () => {
   const { maps } = useMapManagement();
   const [isMarkerLoading, setIsMarkerLoading] = useState(false);
   const { accessToken } = useAuth();
+  const { isNumericalMarkers } = useMapSettings();
 
   const handdleAddMarker = async (mapName: string, data: IMarker) => {
     if (accessToken) {
@@ -83,8 +124,8 @@ const Map: React.FC = () => {
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {markers?.map((marker, index) => (
-          <Marker key={index} position={L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude))}>
-            <Popup closeButton={false} maxWidth={285}>
+          <Marker key={index} position={L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude))} icon={isNumericalMarkers ? createNumberedIcon(index + 1) : defaultIcon}>
+            <Popup className={`${isNumericalMarkers && 'bottom-marker'}`} closeButton={false} maxWidth={285} key={`popup-${marker.name}-${isNumericalMarkers}`}>
               <MarkerInfo marker={marker} />
             </Popup>
           </Marker>
