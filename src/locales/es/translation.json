@@ -42,7 +42,8 @@
         "DESCRIPTION": "Descripción",
         "SELECT_MAP": "Seleccionar mapa",
         "CREATE_MAP": "Crear mapa",
-        "DELETE_MAP": "Eliminar mapa"
+        "DELETE_MAP": "Eliminar mapa",
+        "TOGGLE_NUMERIC_MARKERS": "Marcadores numéricos"
     },
     "PLACEHOLDERS": {
         "MARKER_TEXT": "Texto del marcador",

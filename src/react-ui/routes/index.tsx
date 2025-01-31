@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth.tsx';
 import { SocketProvider } from '../hooks/socketContext.tsx';
 import { SWRConfig } from 'swr';
 import { createSWRConfig } from '@/lib/swrConfig.ts';
+import { MapSettingsProvider } from '../hooks/useMapSettings.tsx';
 
 const RouterComponent = () => {
     const { accessToken, setAccessToken } = useAuth();
@@ -27,10 +28,12 @@ const RouterComponent = () => {
                     />
 
                     {/* Ruta para el mapa si el usuario está logueado */}
+
                     <Route
                         path='/map'
-                        element={accessToken ? <SocketProvider><MapView /></SocketProvider> : <Navigate to='/access' />}
+                        element={accessToken ? <MapSettingsProvider> <SocketProvider><MapView /></SocketProvider> </MapSettingsProvider> : <Navigate to='/access' />}
                     />
+
 
                     {/* Ruta por defecto si la ruta no existe */}
                     <Route path='*' element={<Navigate to={accessToken ? '/map' : '/access'} />} />
