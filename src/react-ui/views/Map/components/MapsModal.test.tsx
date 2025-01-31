@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import MapsModal from './MapsModal';
 import '@testing-library/jest-dom';
+import { MapSettingsProvider } from '@/react-ui/hooks/useMapSettings';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -33,7 +34,11 @@ jest.mock('@/react-ui/hooks/userMapManagement', () => {
 describe('MapsModal Component', () => {
 
     test('renders the list of maps', () => {
-        render(<MapsModal />);
+        render(
+            <MapSettingsProvider>
+                <MapsModal />
+            </MapSettingsProvider>
+        );
 
         expect(screen.getAllByText('Map1')[0]).toBeInTheDocument();
         expect(screen.getAllByText('Map2')[0]).toBeInTheDocument();
@@ -42,14 +47,22 @@ describe('MapsModal Component', () => {
     });
 
     test('renders the select button', () => {
-        render(<MapsModal />);
+        render(
+            <MapSettingsProvider>
+                <MapsModal />
+            </MapSettingsProvider>
+        );
 
         const selectButton = screen.getByRole('button', { name: 'BUTTONS.SELECT' });
         expect(selectButton).toBeInTheDocument();
     });
 
     test('renders correctly with an empty maps list', () => {
-        render(<MapsModal />);
+        render(
+            <MapSettingsProvider>
+                <MapsModal />
+            </MapSettingsProvider>
+        );
 
         const listItems = screen.queryAllByRole('listitem');
         expect(listItems.length).toBe(0);
@@ -57,7 +70,11 @@ describe('MapsModal Component', () => {
 
     test('should render and click buton to create map', () => {
 
-        render(<MapsModal />);
+        render(
+            <MapSettingsProvider>
+                <MapsModal />
+            </MapSettingsProvider>
+        );
 
         const createButton = screen.getByRole('button', { name: 'BUTTONS.CREATE' })
 
