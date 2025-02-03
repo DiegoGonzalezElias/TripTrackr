@@ -83,13 +83,30 @@ const Map: React.FC = () => {
   };
 
   const MapClickHandler = () => {
+    const [lastClick, setLastClick] = useState<number>(0);
+    const isSmallScreen = window.innerWidth < 1200;
+
     useMapEvents({
       click(e) {
-        if (e.originalEvent.ctrlKey) {
+        if (!isSmallScreen && e.originalEvent.ctrlKey) {
           setNewMarkerPosition(e.latlng);
+          return;
         }
-      },
+
+        if (isSmallScreen) {
+          const clickTime = Date.now();
+          const timeDiff = clickTime - lastClick;
+
+          if (timeDiff < 300) {
+            e.originalEvent.preventDefault();
+            setNewMarkerPosition(e.latlng);
+          }
+
+          setLastClick(clickTime);
+        }
+      }
     });
+
     return null;
   };
 
@@ -120,7 +137,7 @@ const Map: React.FC = () => {
           <MarkerFrom closeForm={closeForm} addMarker={addMarker} newMarkerText={newMarkerText} setNewMarkerText={setNewMarkerText} lat={newMarkerPosition.lat.toString()} lng={newMarkerPosition.lng.toString()} isLoading={isMarkerLoading} />
         </div>
       )}
-      <MapContainer className='z-10 absolute' center={[36.502644, -6.272966]} zoom={13} style={{ height: '100vh', width: '100%' }}>
+      <MapContainer className='z-10 absolute' doubleClickZoom={false} center={[36.502644, -6.272966]} zoom={13} style={{ height: '100vh', width: '100%' }}>
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {markers?.map((marker, index) => (
