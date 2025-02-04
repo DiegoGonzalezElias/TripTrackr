@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Switch } from '@/react-ui/components/switch';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface MarkerInfoProps {
@@ -16,7 +15,6 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
     const { t } = useTranslation();
     const { deleteMarker, updateMarker } = useSocketContext();
     const { maps } = useMapManagement();
-    const [isVisited, setisVisited] = useState<boolean>(marker.visited)
 
     const handleDeteleMarker = () => {
         if (!maps) return
@@ -27,8 +25,6 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
 
     const handleToggleVisitedMarker = () => {
         if (!maps) return
-
-        setisVisited(pre => !pre)
 
         const mapName = maps[0]
         const data: IMarker = marker
@@ -45,7 +41,7 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
                         <CardTitle className='text-lg break-words overflow-hidden'>
                             <span title={marker.name} className="line-clamp-2">{marker.name}</span>
                         </CardTitle>
-                        <Switch checked={isVisited} onClick={handleToggleVisitedMarker} />
+                        <Switch checked={marker.visited} onClick={handleToggleVisitedMarker} />
                     </div>
 
                     {marker.description && <CardDescription className='text-gray-800 break-words overflow-hidden'>
