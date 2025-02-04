@@ -2,8 +2,10 @@ import { IMarker } from '@/modules/map/domain/map.model';
 import { Button } from '@/react-ui/components/button'
 import { Calendar } from '@/react-ui/components/calendar'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/react-ui/components/card'
+import { Switch } from '@/react-ui/components/switch';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface MarkerInfoProps {
@@ -12,8 +14,9 @@ interface MarkerInfoProps {
 
 function MarkerInfo({ marker }: MarkerInfoProps) {
     const { t } = useTranslation();
-    const { deleteMarker } = useSocketContext();
+    const { deleteMarker, updateMarker } = useSocketContext();
     const { maps } = useMapManagement();
+    const [isVisited, setisVisited] = useState<boolean>(marker.visited)
 
     const handleDeteleMarker = () => {
         if (!maps) return
@@ -22,13 +25,29 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
         deleteMarker(mapName, data)
     }
 
+    const handleToggleVisitedMarker = () => {
+        if (!maps) return
+
+        setisVisited(pre => !pre)
+
+        const mapName = maps[0]
+        const data: IMarker = marker
+        data.visited = !data.visited
+        console.log('marcador modificado: ', data)
+        updateMarker(mapName, data)
+    }
+
     return (
         <Card className="w-full max-w-[320px] border-none shadow-none">
             <CardHeader className='flex flex-row justify-between text-start'>
-                <div className='max-w-[240px]'>
-                    <CardTitle className='text-lg break-words overflow-hidden'>
-                        <span title={marker.name} className="line-clamp-2">{marker.name}</span>
-                    </CardTitle>
+                <div className='max-w-[240px] w-full'>
+                    <div className='flex items-center justify-between w-full'>
+                        <CardTitle className='text-lg break-words overflow-hidden'>
+                            <span title={marker.name} className="line-clamp-2">{marker.name}</span>
+                        </CardTitle>
+                        <Switch checked={isVisited} onClick={handleToggleVisitedMarker} />
+                    </div>
+
                     {marker.description && <CardDescription className='text-gray-800 break-words overflow-hidden'>
                         <span>{marker.description}</span>
                     </CardDescription>}

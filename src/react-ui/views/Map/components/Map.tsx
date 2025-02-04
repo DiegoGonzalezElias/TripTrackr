@@ -12,20 +12,19 @@ import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import MarkerInfo from './MarkerInfo';
 import { useMapSettings } from '@/react-ui/hooks/useMapSettings';
 
-const defaultIcon = L.icon({
+const defaultIcon = (visited: boolean) => L.icon({
   iconUrl,
   shadowUrl: iconShadowUrl,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [0, -41],
+  className: visited ? 'opacity-50' : ''
 });
 
-L.Marker.prototype.options.icon = defaultIcon;
 
-
-const createNumberedIcon = (number: number) => {
+const createNumberedIcon = (number: number, visited: boolean) => {
   return L.divIcon({
-    className: 'custom-div-icon',
+    className: `custom-div-icon ${visited ? 'opacity-50' : ''}`,
     html: `
       <div style="
         display: flex;
@@ -141,7 +140,7 @@ const Map: React.FC = () => {
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {markers?.map((marker, index) => (
-          <Marker key={index} position={L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude))} icon={isNumericalMarkers ? createNumberedIcon(index + 1) : defaultIcon}>
+          <Marker key={index} position={L.latLng(parseFloat(marker.latitude), parseFloat(marker.longitude))} icon={isNumericalMarkers ? createNumberedIcon(index + 1, marker.visited) : defaultIcon(marker.visited)}>
             <Popup className={`${isNumericalMarkers && 'bottom-marker'}`} closeButton={false} maxWidth={285} key={`popup-${marker.name}-${isNumericalMarkers}`}>
               <MarkerInfo marker={marker} />
             </Popup>
