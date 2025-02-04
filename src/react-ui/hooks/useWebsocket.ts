@@ -50,6 +50,14 @@ export function useMarkersSubscription() {
         }
     }, [socket]);
 
+    const updateMarker = useCallback((mapName: string, data: IMarker) => {
+        if (socket) {
+            socket.emit('UPDATE_MARKER', { mapName, markerData: data });
+        } else {
+            setError(new Error('Socket is not connected'));
+        }
+    }, [socket]);
+
     const deleteMarker = useCallback((mapName: string, data: IMarker) => {
         if (socket) {
             const { name: markerName, latitude, longitude } = data;
@@ -65,6 +73,7 @@ export function useMarkersSubscription() {
         subscribe,
         unsubscribe,
         addMarker,
+        updateMarker,
         deleteMarker
     };
 }
