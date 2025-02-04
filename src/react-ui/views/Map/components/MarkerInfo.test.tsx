@@ -39,6 +39,7 @@ describe('MarkerInfo Component', () => {
         date: '2024-10-30',
         latitude: '0',
         longitude: '0',
+        visited: false,
     };
 
     test('should render marker title and description', () => {

@@ -5,7 +5,7 @@ export interface IMarker {
     description?: string;
     category: 'restaurant' | 'hosting' | 'attraction' | 'shopping' | 'transport' | 'other';
     date?: string;
-    visited: boolean;
+    visited: boolean | false;
 }
 
 export interface MapRepository {
