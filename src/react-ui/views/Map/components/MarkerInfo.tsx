@@ -6,6 +6,7 @@ import { Switch } from '@/react-ui/components/switch';
 import { useSocketContext } from '@/react-ui/hooks/socketContext';
 import { useMapManagement } from '@/react-ui/hooks/userMapManagement';
 import { useTranslation } from 'react-i18next';
+import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 
 interface MarkerInfoProps {
     marker: IMarker
@@ -33,6 +34,10 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
         updateMarker(mapName, data)
     }
 
+    const handleOpenGoogleMaps = () => {
+        window.open(`https://www.google.com/maps?q=${marker.latitude},${marker.longitude}`, '_blank');
+    };
+
     return (
         <Card className="w-full max-w-[320px] border-none shadow-none">
             <CardHeader className='flex flex-row justify-between text-start'>
@@ -41,7 +46,13 @@ function MarkerInfo({ marker }: MarkerInfoProps) {
                         <CardTitle className='text-lg break-words overflow-hidden'>
                             <span title={marker.name} className="line-clamp-2">{marker.name}</span>
                         </CardTitle>
-                        <Switch checked={marker.visited} onClick={handleToggleVisitedMarker} />
+                        <div className='flex flex-col justify-center items-end gap-2'>
+                            <Button className='flex items-center' onClick={handleOpenGoogleMaps}>
+                                <ShareLocationIcon titleAccess='Google maps' />
+                            </Button>
+                            <Switch title='toggle visited' checked={marker.visited} onClick={handleToggleVisitedMarker} />
+                        </div>
+
                     </div>
 
                     {marker.description && <CardDescription className='text-gray-800 break-words overflow-hidden'>
